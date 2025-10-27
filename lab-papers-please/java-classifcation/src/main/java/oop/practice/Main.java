@@ -1,58 +1,36 @@
-package oop.practice;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class Main {
-  public static void main(String[] args) throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    File inputFile = new File("src/main/resources/test-input.json");
-    JsonNode data = mapper.readTree(inputFile).get("data");
+class Universe {
+    private final String name;
+    private final List<String> individuals;
 
-    Universe starWars = new Universe("starWars", new ArrayList<>());
-    Universe hitchhikers = new Universe("hitchHiker", new ArrayList<>());
-    Universe marvel = new Universe("marvel", new ArrayList<>());
-    Universe rings = new Universe("rings", new ArrayList<>());
-
-    Scanner scanner = new Scanner(System.in);
-
-    for (JsonNode entry : data) {
-      String entryAsString = entry.toString();
-      System.out.println(entryAsString);
-      String userInput = scanner.nextLine();
-      switch (userInput) {
-        case "1":
-          starWars.individuals().add(entry);
-          break;
-        case "2":
-          hitchhikers.individuals().add(entry);
-          break;
-        case "3":
-          marvel.individuals().add(entry);
-          break;
-        case "4":
-          rings.individuals().add(entry);
-          break;
-        default:
-          System.out.println("Invalid input");
-      }
+    public Universe(String name, List<String> individuals) {
+        this.name = name;
+        this.individuals = individuals;
     }
 
-    scanner.close();
-    mapper.writeValue(new File("src/main/resources/output/starwars.json"), starWars);
-    mapper.writeValue(new File("src/main/resources/output/hitchhiker.json"), hitchhikers);
-    mapper.writeValue(new File("src/main/resources/output/rings.json"), rings);
-    mapper.writeValue(new File("src/main/resources/output/marvel.json"), marvel);
-  }
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getIndividuals() {
+        return individuals;
+    }
 }
 
-record Universe(
-    String name,
-    List<JsonNode> individuals
-) { }
+public class Main {
+    public static void main(String[] args) {
+        List<String> uniIndividuals = List.of("Courier 6", "Caesar", "General Oliver", "Mr. House");
+        Universe universe = new Universe("Fallout: New Vegas", uniIndividuals);
+
+        System.out.println("Universe: " + universe.getName());
+        System.out.print("Individuals: ");
+
+        for (int i = 0; i < universe.getIndividuals().size(); i++) {
+            System.out.print(universe.getIndividuals().get(i));
+            if (i < universe.getIndividuals().size() - 1) {
+                System.out.print(", ");
+            }
+        }
+    }
+}
