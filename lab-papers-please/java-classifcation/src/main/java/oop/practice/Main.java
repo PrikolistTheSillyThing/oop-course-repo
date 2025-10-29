@@ -1,5 +1,4 @@
 package oop.practice;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
@@ -7,13 +6,19 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 
-class Universe {
+enum Universe {
+    STAR_WARS,
+    MARVEL,
+    HITCHHIKER,
+    LORD_OF_THE_RINGS,
+    UNDEFINED  // for individuals with insufficient info
+}
+
+ /* class Universe {
     private final String name;
     private final List<String> individuals;
 
@@ -30,13 +35,15 @@ class Universe {
         return individuals;
     }
 }
+*/
 
 class Individual {
     private int id;
     private boolean isHumanoid;
     private String planet;
-    private int age;
+    private Integer age;
     private List<String> traits;
+    private Universe universe;
 
     public Individual() {}
 
@@ -52,12 +59,16 @@ class Individual {
         this.planet = planet;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
     public void setTraits(List<String> traits) {
         this.traits = traits;
+    }
+
+    public void setUniverse(Universe universe) {
+        this.universe = universe;
     }
 
    public int getId() {
@@ -69,15 +80,18 @@ class Individual {
    public String getPlanet() {
        return planet;
    }
-   public int getAge() {
+   public Integer getAge() {
        return age;
    }
    public List<String> getTraits() {
        return traits;
    }
-
+    public Universe getUniverse() {
+        return universe;
+    }
 
 }
+
 
 class Files {
     void createFile() {
@@ -134,9 +148,82 @@ class Files {
             return new ArrayList<>();
         }
     }
+
 }
 
 public class Main {
+    private static boolean hasAllTraits(Individual individual, String... requiredTraits) {
+        if (individual.getTraits() == null) return false;
+        for (String trait : requiredTraits) {
+            if (!individual.getTraits().contains(trait)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private static void classifyIndividual(Individual individual) {
+        // Asgardian (Marvel)
+        if (individual.isHumanoid()
+                && individual.getAge() != null  // Check if age exists
+                && individual.getAge() >= 0 && individual.getAge() <= 5000
+                && "Asgard".equals(individual.getPlanet())
+                && hasAllTraits(individual, "BLONDE", "TALL")) {
+            individual.setUniverse(Universe.MARVEL);
+        }
+        // Wookie (Star Wars)
+        else if (!individual.isHumanoid()
+                && individual.getAge() != null  // Check if age exists
+                && individual.getAge() >= 0 && individual.getAge() <= 400
+                && "Kashyyyk".equals(individual.getPlanet())
+                && hasAllTraits(individual, "HAIRY", "TALL")) {
+            individual.setUniverse(Universe.STAR_WARS);
+        }
+        // Ewok (Star Wars)
+        else if (!individual.isHumanoid()
+                && individual.getAge() != null  // Check if age exists
+                && individual.getAge() >= 0 && individual.getAge() <= 60
+                && "Endor".equals(individual.getPlanet())
+                && hasAllTraits(individual, "SHORT", "HAIRY")) {
+            individual.setUniverse(Universe.STAR_WARS);
+        }
+        // Betelgeusian (Hitchhiker)
+        else if (individual.isHumanoid()
+                && individual.getAge() != null  // Check if age exists
+                && individual.getAge() >= 0 && individual.getAge() <= 100
+                && "Betelgeuse".equals(individual.getPlanet())
+                && hasAllTraits(individual, "EXTRA_ARMS", "EXTRA_HEAD")) {
+            individual.setUniverse(Universe.HITCHHIKER);
+        }
+        // Vogon (Hitchhiker)
+        else if (!individual.isHumanoid()
+                && individual.getAge() != null  // Check if age exists
+                && individual.getAge() >= 0 && individual.getAge() <= 200
+                && "Vogsphere".equals(individual.getPlanet())
+                && hasAllTraits(individual, "GREEN", "BULKY")) {
+            individual.setUniverse(Universe.HITCHHIKER);
+        }
+        // Elf (Lord of the Rings)
+        else if (individual.isHumanoid()
+                && individual.getAge() != null  // Check if age exists
+                && individual.getAge() >= 0  // No upper limit for elves
+                && "Earth".equals(individual.getPlanet())
+                && hasAllTraits(individual, "BLONDE", "POINTY_EARS")) {
+            individual.setUniverse(Universe.LORD_OF_THE_RINGS);
+        }
+        // Dwarf (Lord of the Rings)
+        else if (individual.isHumanoid()
+                && individual.getAge() != null  // Check if age exists
+                && individual.getAge() >= 0 && individual.getAge() <= 200
+                && "Earth".equals(individual.getPlanet())
+                && hasAllTraits(individual, "SHORT", "BULKY")) {
+            individual.setUniverse(Universe.LORD_OF_THE_RINGS);
+        }
+        // If none match, it's undefined
+        else {
+            individual.setUniverse(Universe.UNDEFINED);
+        }
+    }
+
     public static void main(String[] args) {
         /*
         List<String> uniIndividuals = List.of("Courier 6", "Caesar", "General Oliver", "Mr. House");
@@ -171,16 +258,58 @@ public class Main {
             System.out.println("---");
         }
 
-        System.out.println("\n=== Only IDs ===");
+        System.out.println("Only IDs: ");
         for (Individual individual : individuals) {
-            System.out.println("ID: " + individual.getId());
+            System.out.println("ID: " +individual.getId());
         }
 
-        System.out.println("\n Only humanoids");
+        System.out.println("Humanoids only: ");
         for (Individual individual : individuals) {
             if (individual.isHumanoid()) {
-                System.out.println("ID: " + individual.getId() + " - Humanoid from " + individual.getPlanet());
+                System.out.println("ID: " +individual.getId()+", From " +  individual.getPlanet());
             }
         }
+
+        System.out.println("----Classifying Individuals----");
+        for (Individual individual : individuals) {
+            classifyIndividual(individual);
+        }
+
+        // Print results by universe
+        System.out.println("\n----STAR WARS Universe----");
+        for (Individual individual : individuals) {
+            if (individual.getUniverse() == Universe.STAR_WARS) {
+                System.out.println("ID: " + individual.getId() + ", from " + individual.getPlanet());
+            }
+        }
+
+        System.out.println("\n----MARVEL Universe----");
+        for (Individual individual : individuals) {
+            if (individual.getUniverse() == Universe.MARVEL) {
+                System.out.println("ID: " + individual.getId() + ", from " + individual.getPlanet());
+            }
+        }
+
+        System.out.println("\n----HITCHHIKER Universe----");
+        for (Individual individual : individuals) {
+            if (individual.getUniverse() == Universe.HITCHHIKER) {
+                System.out.println("ID: " + individual.getId() + ", from " + individual.getPlanet());
+            }
+        }
+
+        System.out.println("\n----LORD OF THE RINGS Universe----");
+        for (Individual individual : individuals) {
+            if (individual.getUniverse() == Universe.LORD_OF_THE_RINGS) {
+                System.out.println("ID: " + individual.getId() + ", from " + individual.getPlanet());
+            }
+        }
+
+        System.out.println("\n----UNDEFINED Universe----");
+        for (Individual individual : individuals) {
+            if (individual.getUniverse() == Universe.UNDEFINED) {
+                System.out.println("ID: " + individual.getId() + " - Insufficient information");
+            }
+        }
+
     }
 }
