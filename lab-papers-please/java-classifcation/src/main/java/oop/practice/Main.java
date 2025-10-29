@@ -1,12 +1,17 @@
 package oop.practice;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
+
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 
 class Universe {
     private final String name;
@@ -24,6 +29,54 @@ class Universe {
     public List<String> getIndividuals() {
         return individuals;
     }
+}
+
+class Individual {
+    private int id;
+    private boolean isHumanoid;
+    private String planet;
+    private int age;
+    private List<String> traits;
+
+    public Individual() {}
+
+    public void setIsHumanoid(boolean isHumanoid) {
+        this.isHumanoid = isHumanoid;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setPlanet(String planet) {
+        this.planet = planet;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setTraits(List<String> traits) {
+        this.traits = traits;
+    }
+
+   public int getId() {
+       return id;
+   }
+   public boolean isHumanoid() {
+       return isHumanoid;
+   }
+   public String getPlanet() {
+       return planet;
+   }
+   public int getAge() {
+       return age;
+   }
+   public List<String> getTraits() {
+       return traits;
+   }
+
+
 }
 
 class Files {
@@ -56,29 +109,36 @@ class Files {
         }
     }
 
-    void readJsonFile(File obj) {
+    List<Individual> readJsonFile(File obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(obj);
-            System.out.println("Full JSON: ");
-            System.out.println(root.toPrettyString());
+            JsonNode dataNode = root.get("data");
 
-            if (root.isArray()) {
-                System.out.println("Entries: ");
-                for (JsonNode node : root) {
-                    System.out.println(node);
-                }
+            if (dataNode != null && dataNode.isArray()) {
+                List<Individual> individuals = mapper.readValue(
+                        dataNode.toString(),
+                        new TypeReference<List<Individual>>() {}
+                );
+                System.out.println("All individuals loaded successfully");
+                return individuals;
+            }
+            else {
+                System.out.println("No Data found");
+                return new ArrayList<>();
             }
         }
         catch (IOException e) {
             System.out.println("Error reading file: " + obj.toPath().getFileName());
             e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 }
 
 public class Main {
     public static void main(String[] args) {
+        /*
         List<String> uniIndividuals = List.of("Courier 6", "Caesar", "General Oliver", "Mr. House");
         Universe universe = new Universe("Fallout: New Vegas", uniIndividuals);
 
@@ -91,10 +151,36 @@ public class Main {
                 System.out.print(", ");
             }
         }
+        */
+
+
+
         Files files = new Files();
         files.createFile();
         File fileObj = new File("lab-papers-please\\java-classifcation\\src\\main\\resources\\input.json");
         // files.readFile(fileObj);
-        files.readJsonFile(fileObj);
+        List<Individual> individuals = files.readJsonFile(fileObj);
+        System.out.println("Total individuals: " + individuals.size());
+
+        for (Individual individual : individuals) {
+            System.out.println(individual.getId());
+            System.out.println(individual.isHumanoid());
+            System.out.println(individual.getPlanet());
+            System.out.println(individual.getAge());
+            System.out.println(individual.getTraits());
+            System.out.println("---");
+        }
+
+        System.out.println("\n=== Only IDs ===");
+        for (Individual individual : individuals) {
+            System.out.println("ID: " + individual.getId());
+        }
+
+        System.out.println("\n Only humanoids");
+        for (Individual individual : individuals) {
+            if (individual.isHumanoid()) {
+                System.out.println("ID: " + individual.getId() + " - Humanoid from " + individual.getPlanet());
+            }
+        }
     }
 }
