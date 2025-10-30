@@ -18,25 +18,6 @@ enum Universe {
     UNDEFINED  // for individuals with insufficient info
 }
 
- /* class Universe {
-    private final String name;
-    private final List<String> individuals;
-
-    public Universe(String name, List<String> individuals) {
-        this.name = name;
-        this.individuals = individuals;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getIndividuals() {
-        return individuals;
-    }
-}
-*/
-
 class Individual {
     private int id;
     private Boolean isHumanoid;
@@ -190,6 +171,7 @@ class UniverseOutput {
 }
 
 public class Main {
+
     private static boolean hasAllTraits(Individual individual, String... requiredTraits) {
         if (individual.getTraits() == null) return false;
         for (String trait : requiredTraits) {
@@ -346,7 +328,6 @@ public class Main {
         return hasMatchingInfo;
     }
 
-    // helper to check if list contains ANY of the required traits
     private static boolean containsMultipleTraits(List<String> traits, String... requiredTraits) {
         if (traits == null) return false;
         int count = 0;
@@ -359,51 +340,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        /*
-        List<String> uniIndividuals = List.of("Courier 6", "Caesar", "General Oliver", "Mr. House");
-        Universe universe = new Universe("Fallout: New Vegas", uniIndividuals);
-
-        System.out.println("Universe: " + universe.getName());
-        System.out.print("Individuals: ");
-
-        for (int i = 0; i < universe.getIndividuals().size(); i++) {
-            System.out.print(universe.getIndividuals().get(i));
-            if (i < universe.getIndividuals().size() - 1) {
-                System.out.print(", ");
-            }
-        }
-        */
-
-
-
         Files files = new Files();
         files.createFile();
         File fileObj = new File("lab-papers-please\\java-classifcation\\src\\main\\resources\\input.json");
-        // files.readFile(fileObj);
         List<Individual> individuals = files.readJsonFile(fileObj);
         System.out.println("Total individuals: " + individuals.size());
 
-        /* for (Individual individual : individuals) {
-            System.out.println(individual.getId());
-            System.out.println(individual.isHumanoid());
-            System.out.println(individual.getPlanet());
-            System.out.println(individual.getAge());
-            System.out.println(individual.getTraits());
-            System.out.println("---");
-        }
-
-        System.out.println("Only IDs: ");
-        for (Individual individual : individuals) {
-            System.out.println("ID: " +individual.getId());
-        }
-
-        System.out.println("Humanoids only: ");
-        for (Individual individual : individuals) {
-            if (individual.isHumanoid()) {
-                System.out.println("ID: " +individual.getId()+", From " +  individual.getPlanet());
-            }
-        }
-        */
         System.out.println("\n----Classifying Individuals----");
         for (Individual individual : individuals) {
             classifyIndividual(individual);
