@@ -15,6 +15,20 @@
     "universe" : "HITCHHIKER",
     "humanoid" : false
   }, {
+    "id" : 6,
+    "planet" : null,
+    "age" : 26,
+    "traits" : [ "EXTRA_ARMS" ],
+    "universe" : "HITCHHIKER",
+    "humanoid" : null
+  }, {
+    "id" : 8,
+    "planet" : null,
+    "age" : 82,
+    "traits" : [ "EXTRA_HEAD" ],
+    "universe" : "HITCHHIKER",
+    "humanoid" : null
+  }, {
     "id" : 11,
     "planet" : null,
     "age" : 128,
@@ -28,5 +42,12 @@
     "traits" : [ "GREEN", "BULKY" ],
     "universe" : "HITCHHIKER",
     "humanoid" : false
+  }, {
+    "id" : 21,
+    "planet" : "Betelgeuse",
+    "age" : 45,
+    "traits" : [ "EXTRA_ARMS", "EXTRA_HEAD" ],
+    "universe" : "HITCHHIKER",
+    "humanoid" : null
   } ]
 }

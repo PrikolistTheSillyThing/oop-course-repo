@@ -1,6 +1,13 @@
 {
   "name" : "lordOfTheRings",
   "individuals" : [ {
+    "id" : 4,
+    "planet" : "Earth",
+    "age" : null,
+    "traits" : [ "SHORT", "BULKY" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
+  }, {
     "id" : 5,
     "planet" : null,
     "age" : null,

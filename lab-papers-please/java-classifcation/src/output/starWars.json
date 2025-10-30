@@ -20,7 +20,7 @@
     "age" : null,
     "traits" : null,
     "universe" : "STAR_WARS",
-    "humanoid" : false
+    "humanoid" : null
   }, {
     "id" : 12,
     "planet" : "Endor",
@@ -34,7 +34,7 @@
     "age" : 352,
     "traits" : [ "HAIRY", "TALL" ],
     "universe" : "STAR_WARS",
-    "humanoid" : false
+    "humanoid" : null
   }, {
     "id" : 20,
     "planet" : "Endor",

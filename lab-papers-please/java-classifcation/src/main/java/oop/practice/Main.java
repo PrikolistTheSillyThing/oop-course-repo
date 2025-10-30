@@ -39,7 +39,7 @@ enum Universe {
 
 class Individual {
     private int id;
-    private boolean isHumanoid;
+    private Boolean isHumanoid;
     private String planet;
     private Integer age;
     private List<String> traits;
@@ -47,7 +47,7 @@ class Individual {
 
     public Individual() {}
 
-    public void setIsHumanoid(boolean isHumanoid) {
+    public void setIsHumanoid(Boolean isHumanoid) {
         this.isHumanoid = isHumanoid;
     }
 
@@ -74,7 +74,7 @@ class Individual {
    public int getId() {
        return id;
    }
-   public boolean isHumanoid() {
+   public Boolean isHumanoid() {
        return isHumanoid;
    }
    public String getPlanet() {
@@ -248,7 +248,7 @@ public class Main {
     // helper methods - return true if individual COULD be this species
     private static boolean canBeAsgardian(Individual individual) {
         // check if any field CONTRADICTS being Asgardian
-        if (individual.isHumanoid() == false) return false;  // Must be humanoid
+        if (individual.isHumanoid() != null && individual.isHumanoid() == false) return false;  // Must be humanoid
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 5000)) return false;
         if (individual.getPlanet() != null && !"Asgard".equals(individual.getPlanet())) return false;
         if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "BLONDE", "TALL")) return false;
@@ -263,7 +263,7 @@ public class Main {
     }
 
     private static boolean canBeWookie(Individual individual) {
-        if (individual.isHumanoid() == true) return false;  // must NOT be humanoid
+        if (individual.isHumanoid() != null && individual.isHumanoid() == true) return false;  // must NOT be humanoid
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 400)) return false;
         if (individual.getPlanet() != null && !"Kashyyyk".equals(individual.getPlanet())) return false;
         if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "HAIRY", "TALL")) return false;
@@ -277,7 +277,7 @@ public class Main {
     }
 
     private static boolean canBeEwok(Individual individual) {
-        if (individual.isHumanoid() == true) return false;
+        if (individual.isHumanoid() != null && individual.isHumanoid() == true) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 60)) return false;
         if (individual.getPlanet() != null && !"Endor".equals(individual.getPlanet())) return false;
         if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "SHORT", "HAIRY")) return false;
@@ -291,7 +291,7 @@ public class Main {
     }
 
     private static boolean canBeBetelgeusian(Individual individual) {
-        if (individual.isHumanoid() == false) return false;
+        if (individual.isHumanoid() != null && individual.isHumanoid() == false) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 100)) return false;
         if (individual.getPlanet() != null && !"Betelgeuse".equals(individual.getPlanet())) return false;
         if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "EXTRA_ARMS", "EXTRA_HEAD")) return false;
@@ -305,7 +305,7 @@ public class Main {
     }
 
     private static boolean canBeVogon(Individual individual) {
-        if (individual.isHumanoid() == true) return false;
+        if (individual.isHumanoid() != null && individual.isHumanoid() == true) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
         if (individual.getPlanet() != null && !"Vogsphere".equals(individual.getPlanet())) return false;
         if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "GREEN", "BULKY")) return false;
@@ -319,7 +319,7 @@ public class Main {
     }
 
     private static boolean canBeElf(Individual individual) {
-        if (individual.isHumanoid() == false) return false;
+        if (individual.isHumanoid() != null && individual.isHumanoid() == false) return false;
         if (individual.getAge() != null && individual.getAge() < 0) return false;  // no upper limit
         if (individual.getPlanet() != null && !"Earth".equals(individual.getPlanet())) return false;
         if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "BLONDE", "POINTY_EARS")) return false;
@@ -333,7 +333,7 @@ public class Main {
     }
 
     private static boolean canBeDwarf(Individual individual) {
-        if (individual.isHumanoid() == false) return false;
+        if (individual.isHumanoid() != null && individual.isHumanoid() == false) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
         if (individual.getPlanet() != null && !"Earth".equals(individual.getPlanet())) return false;
         if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "SHORT", "BULKY")) return false;
