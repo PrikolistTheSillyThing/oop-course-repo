@@ -149,6 +149,44 @@ class Files {
         }
     }
 
+    void writeJsonFile(String filename, UniverseOutput output) {
+        File file = new File(filename);
+
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(new File(filename), output);
+            System.out.println("File written successfully: " + filename);
+        }
+        catch (IOException e) {
+            System.out.println("Error writing file: " + filename);
+            e.printStackTrace();
+        }
+    }
+
+}
+
+class UniverseOutput {
+    private String name;
+    private List<Individual> individuals;
+
+    public UniverseOutput(String name, List<Individual> individuals) {
+        this.name = name;
+        this.individuals = individuals;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Individual> getIndividuals() {
+        return individuals;
+    }
 }
 
 public class Main {
@@ -249,7 +287,7 @@ public class Main {
         List<Individual> individuals = files.readJsonFile(fileObj);
         System.out.println("Total individuals: " + individuals.size());
 
-        for (Individual individual : individuals) {
+        /* for (Individual individual : individuals) {
             System.out.println(individual.getId());
             System.out.println(individual.isHumanoid());
             System.out.println(individual.getPlanet());
@@ -269,8 +307,8 @@ public class Main {
                 System.out.println("ID: " +individual.getId()+", From " +  individual.getPlanet());
             }
         }
-
-        System.out.println("----Classifying Individuals----");
+        */
+        System.out.println("\n----Classifying Individuals----");
         for (Individual individual : individuals) {
             classifyIndividual(individual);
         }
@@ -311,5 +349,36 @@ public class Main {
             }
         }
 
+        System.out.println("\n Writing output files");
+
+        List<Individual> starWarsIndividuals = new ArrayList<>();
+        List<Individual> marvelIndividuals = new ArrayList<>();
+        List<Individual> hitchhikerIndividuals = new ArrayList<>();
+        List<Individual> lordOfTheRingsIndividuals = new ArrayList<>();
+
+        for (Individual individual : individuals) {
+            if (individual.getUniverse() == Universe.MARVEL) {
+                marvelIndividuals.add(individual);
+            }
+            else if (individual.getUniverse() == Universe.HITCHHIKER) {
+                hitchhikerIndividuals.add(individual);
+            }
+            else if (individual.getUniverse() == Universe.LORD_OF_THE_RINGS) {
+                lordOfTheRingsIndividuals.add(individual);
+            }
+            else if (individual.getUniverse() == Universe.STAR_WARS) {
+                starWarsIndividuals.add(individual);
+            }
+        }
+
+        UniverseOutput starWarsOutput = new UniverseOutput("starWars", starWarsIndividuals);
+        UniverseOutput marvelOutput = new UniverseOutput("marvel", marvelIndividuals);
+        UniverseOutput hitchhikerOutput = new UniverseOutput("hitchhiker", hitchhikerIndividuals);
+        UniverseOutput lordOfTheRingsOutput = new UniverseOutput("lordOfTheRings", lordOfTheRingsIndividuals);
+
+        files.writeJsonFile("lab-papers-please/java-classifcation/src/output/starWars.json", starWarsOutput);
+        files.writeJsonFile("lab-papers-please/java-classifcation/src/output/marvel.json", marvelOutput);
+        files.writeJsonFile("lab-papers-please/java-classifcation/src/output/hitchhiker.json", hitchhikerOutput);
+        files.writeJsonFile("lab-papers-please/java-classifcation/src/output/lordOfTheRings.json", lordOfTheRingsOutput);
     }
 }

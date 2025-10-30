@@ -1,0 +1,18 @@
+{
+  "name" : "hitchhiker",
+  "individuals" : [ {
+    "id" : 1,
+    "planet" : "Betelgeuse",
+    "age" : 59,
+    "traits" : [ "EXTRA_ARMS", "EXTRA_HEAD" ],
+    "universe" : "HITCHHIKER",
+    "humanoid" : true
+  }, {
+    "id" : 16,
+    "planet" : "Vogsphere",
+    "age" : 128,
+    "traits" : [ "GREEN", "BULKY" ],
+    "universe" : "HITCHHIKER",
+    "humanoid" : false
+  } ]
+}

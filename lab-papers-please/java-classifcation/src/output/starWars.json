@@ -1,0 +1,25 @@
+{
+  "name" : "starWars",
+  "individuals" : [ {
+    "id" : 0,
+    "planet" : "Kashyyyk",
+    "age" : 253,
+    "traits" : [ "HAIRY", "TALL" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 12,
+    "planet" : "Endor",
+    "age" : 34,
+    "traits" : [ "HAIRY", "SHORT" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 13,
+    "planet" : "Kashyyyk",
+    "age" : 352,
+    "traits" : [ "HAIRY", "TALL" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  } ]
+}
