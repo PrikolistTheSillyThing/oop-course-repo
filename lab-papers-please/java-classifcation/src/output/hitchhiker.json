@@ -8,6 +8,20 @@
     "universe" : "HITCHHIKER",
     "humanoid" : true
   }, {
+    "id" : 2,
+    "planet" : null,
+    "age" : null,
+    "traits" : [ "BULKY" ],
+    "universe" : "HITCHHIKER",
+    "humanoid" : false
+  }, {
+    "id" : 11,
+    "planet" : null,
+    "age" : 128,
+    "traits" : [ "GREEN" ],
+    "universe" : "HITCHHIKER",
+    "humanoid" : false
+  }, {
     "id" : 16,
     "planet" : "Vogsphere",
     "age" : 128,

@@ -1,10 +1,31 @@
 {
   "name" : "lordOfTheRings",
   "individuals" : [ {
+    "id" : 5,
+    "planet" : null,
+    "age" : null,
+    "traits" : [ "BULKY" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
     "id" : 9,
     "planet" : "Earth",
     "age" : 124,
     "traits" : [ "SHORT", "BULKY" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
+    "id" : 14,
+    "planet" : null,
+    "age" : 7523,
+    "traits" : null,
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
+    "id" : 15,
+    "planet" : "Earth",
+    "age" : 451,
+    "traits" : [ "BLONDE", "TALL" ],
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : true
   }, {

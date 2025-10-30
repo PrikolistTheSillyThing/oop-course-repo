@@ -7,5 +7,19 @@
     "traits" : [ "BLONDE", "TALL" ],
     "universe" : "MARVEL",
     "humanoid" : true
+  }, {
+    "id" : 17,
+    "planet" : null,
+    "age" : 154,
+    "traits" : [ "BLONDE", "TALL" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
+  }, {
+    "id" : 18,
+    "planet" : "Asgard",
+    "age" : null,
+    "traits" : [ "BLONDE", "TALL" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
   } ]
 }

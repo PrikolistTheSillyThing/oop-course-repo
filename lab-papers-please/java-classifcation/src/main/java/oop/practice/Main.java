@@ -200,66 +200,161 @@ public class Main {
         return true;
     }
     private static void classifyIndividual(Individual individual) {
-        // Asgardian (Marvel)
-        if (individual.isHumanoid()
-                && individual.getAge() != null  // Check if age exists
-                && individual.getAge() >= 0 && individual.getAge() <= 5000
-                && "Asgard".equals(individual.getPlanet())
-                && hasAllTraits(individual, "BLONDE", "TALL")) {
-            individual.setUniverse(Universe.MARVEL);
+        List<Universe> possibleUniverses = new ArrayList<>();
+
+        // check Asgardian (Marvel)
+        if (canBeAsgardian(individual)) {
+            possibleUniverses.add(Universe.MARVEL);
         }
-        // Wookie (Star Wars)
-        else if (!individual.isHumanoid()
-                && individual.getAge() != null  // Check if age exists
-                && individual.getAge() >= 0 && individual.getAge() <= 400
-                && "Kashyyyk".equals(individual.getPlanet())
-                && hasAllTraits(individual, "HAIRY", "TALL")) {
-            individual.setUniverse(Universe.STAR_WARS);
+
+        // check Wookie (Star Wars)
+        if (canBeWookie(individual)) {
+            possibleUniverses.add(Universe.STAR_WARS);
         }
-        // Ewok (Star Wars)
-        else if (!individual.isHumanoid()
-                && individual.getAge() != null  // Check if age exists
-                && individual.getAge() >= 0 && individual.getAge() <= 60
-                && "Endor".equals(individual.getPlanet())
-                && hasAllTraits(individual, "SHORT", "HAIRY")) {
-            individual.setUniverse(Universe.STAR_WARS);
+
+        // check Ewok (Star Wars)
+        if (canBeEwok(individual)) {
+            possibleUniverses.add(Universe.STAR_WARS);
         }
-        // Betelgeusian (Hitchhiker)
-        else if (individual.isHumanoid()
-                && individual.getAge() != null  // Check if age exists
-                && individual.getAge() >= 0 && individual.getAge() <= 100
-                && "Betelgeuse".equals(individual.getPlanet())
-                && hasAllTraits(individual, "EXTRA_ARMS", "EXTRA_HEAD")) {
-            individual.setUniverse(Universe.HITCHHIKER);
+
+        // check Betelgeusian (Hitchhiker)
+        if (canBeBetelgeusian(individual)) {
+            possibleUniverses.add(Universe.HITCHHIKER);
         }
-        // Vogon (Hitchhiker)
-        else if (!individual.isHumanoid()
-                && individual.getAge() != null  // Check if age exists
-                && individual.getAge() >= 0 && individual.getAge() <= 200
-                && "Vogsphere".equals(individual.getPlanet())
-                && hasAllTraits(individual, "GREEN", "BULKY")) {
-            individual.setUniverse(Universe.HITCHHIKER);
+
+        // check Vogon (Hitchhiker)
+        if (canBeVogon(individual)) {
+            possibleUniverses.add(Universe.HITCHHIKER);
         }
-        // Elf (Lord of the Rings)
-        else if (individual.isHumanoid()
-                && individual.getAge() != null  // Check if age exists
-                && individual.getAge() >= 0  // No upper limit for elves
-                && "Earth".equals(individual.getPlanet())
-                && hasAllTraits(individual, "BLONDE", "POINTY_EARS")) {
-            individual.setUniverse(Universe.LORD_OF_THE_RINGS);
+
+        // check Elf (Lord of the Rings)
+        if (canBeElf(individual)) {
+            possibleUniverses.add(Universe.LORD_OF_THE_RINGS);
         }
-        // Dwarf (Lord of the Rings)
-        else if (individual.isHumanoid()
-                && individual.getAge() != null  // Check if age exists
-                && individual.getAge() >= 0 && individual.getAge() <= 200
-                && "Earth".equals(individual.getPlanet())
-                && hasAllTraits(individual, "SHORT", "BULKY")) {
-            individual.setUniverse(Universe.LORD_OF_THE_RINGS);
+
+        // check Dwarf (Lord of the Rings)
+        if (canBeDwarf(individual)) {
+            possibleUniverses.add(Universe.LORD_OF_THE_RINGS);
         }
-        // If none match, it's undefined
-        else {
+
+        // assign universe (if only one possible, use it, if multiple, pick first, if none, undefined)
+        if (!possibleUniverses.isEmpty()) {
+            individual.setUniverse(possibleUniverses.get(0));
+        } else {
             individual.setUniverse(Universe.UNDEFINED);
         }
+    }
+
+    // helper methods - return true if individual COULD be this species
+    private static boolean canBeAsgardian(Individual individual) {
+        // check if any field CONTRADICTS being Asgardian
+        if (individual.isHumanoid() == false) return false;  // Must be humanoid
+        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 5000)) return false;
+        if (individual.getPlanet() != null && !"Asgard".equals(individual.getPlanet())) return false;
+        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "BLONDE", "TALL")) return false;
+
+        // if we have at least SOME matching info, classify it
+        boolean hasMatchingInfo = false;
+        if ("Asgard".equals(individual.getPlanet())) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "BLONDE", "TALL")) hasMatchingInfo = true;
+        if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 5000) hasMatchingInfo = true;
+
+        return hasMatchingInfo;
+    }
+
+    private static boolean canBeWookie(Individual individual) {
+        if (individual.isHumanoid() == true) return false;  // must NOT be humanoid
+        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 400)) return false;
+        if (individual.getPlanet() != null && !"Kashyyyk".equals(individual.getPlanet())) return false;
+        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "HAIRY", "TALL")) return false;
+
+        boolean hasMatchingInfo = false;
+        if ("Kashyyyk".equals(individual.getPlanet())) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "HAIRY", "TALL")) hasMatchingInfo = true;
+        if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 400) hasMatchingInfo = true;
+
+        return hasMatchingInfo;
+    }
+
+    private static boolean canBeEwok(Individual individual) {
+        if (individual.isHumanoid() == true) return false;
+        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 60)) return false;
+        if (individual.getPlanet() != null && !"Endor".equals(individual.getPlanet())) return false;
+        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "SHORT", "HAIRY")) return false;
+
+        boolean hasMatchingInfo = false;
+        if ("Endor".equals(individual.getPlanet())) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "SHORT", "HAIRY")) hasMatchingInfo = true;
+        if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 60) hasMatchingInfo = true;
+
+        return hasMatchingInfo;
+    }
+
+    private static boolean canBeBetelgeusian(Individual individual) {
+        if (individual.isHumanoid() == false) return false;
+        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 100)) return false;
+        if (individual.getPlanet() != null && !"Betelgeuse".equals(individual.getPlanet())) return false;
+        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "EXTRA_ARMS", "EXTRA_HEAD")) return false;
+
+        boolean hasMatchingInfo = false;
+        if ("Betelgeuse".equals(individual.getPlanet())) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "EXTRA_ARMS", "EXTRA_HEAD")) hasMatchingInfo = true;
+        if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 100) hasMatchingInfo = true;
+
+        return hasMatchingInfo;
+    }
+
+    private static boolean canBeVogon(Individual individual) {
+        if (individual.isHumanoid() == true) return false;
+        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
+        if (individual.getPlanet() != null && !"Vogsphere".equals(individual.getPlanet())) return false;
+        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "GREEN", "BULKY")) return false;
+
+        boolean hasMatchingInfo = false;
+        if ("Vogsphere".equals(individual.getPlanet())) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "GREEN", "BULKY")) hasMatchingInfo = true;
+        if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 200) hasMatchingInfo = true;
+
+        return hasMatchingInfo;
+    }
+
+    private static boolean canBeElf(Individual individual) {
+        if (individual.isHumanoid() == false) return false;
+        if (individual.getAge() != null && individual.getAge() < 0) return false;  // no upper limit
+        if (individual.getPlanet() != null && !"Earth".equals(individual.getPlanet())) return false;
+        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "BLONDE", "POINTY_EARS")) return false;
+
+        boolean hasMatchingInfo = false;
+        if ("Earth".equals(individual.getPlanet())) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "BLONDE", "POINTY_EARS")) hasMatchingInfo = true;
+        if (individual.getAge() != null && individual.getAge() >= 0) hasMatchingInfo = true;
+
+        return hasMatchingInfo;
+    }
+
+    private static boolean canBeDwarf(Individual individual) {
+        if (individual.isHumanoid() == false) return false;
+        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
+        if (individual.getPlanet() != null && !"Earth".equals(individual.getPlanet())) return false;
+        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "SHORT", "BULKY")) return false;
+
+        boolean hasMatchingInfo = false;
+        if ("Earth".equals(individual.getPlanet())) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "SHORT", "BULKY")) hasMatchingInfo = true;
+        if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 200) hasMatchingInfo = true;
+
+        return hasMatchingInfo;
+    }
+
+    // helper to check if list contains ANY of the required traits
+    private static boolean containsAnyTrait(List<String> traits, String... requiredTraits) {
+        if (traits == null) return false;
+        for (String required : requiredTraits) {
+            if (traits.contains(required)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -313,7 +408,7 @@ public class Main {
             classifyIndividual(individual);
         }
 
-        // Print results by universe
+        // print results by universe
         System.out.println("\n----STAR WARS Universe----");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.STAR_WARS) {
