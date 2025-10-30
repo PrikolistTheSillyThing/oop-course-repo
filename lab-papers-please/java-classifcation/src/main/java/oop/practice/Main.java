@@ -251,12 +251,12 @@ public class Main {
         if (individual.isHumanoid() != null && individual.isHumanoid() == false) return false;  // Must be humanoid
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 5000)) return false;
         if (individual.getPlanet() != null && !"Asgard".equals(individual.getPlanet())) return false;
-        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "BLONDE", "TALL")) return false;
+        if (individual.getTraits() != null && !containsMultipleTraits(individual.getTraits(), "BLONDE", "TALL")) return false;
 
         // if we have at least SOME matching info, classify it
         boolean hasMatchingInfo = false;
         if ("Asgard".equals(individual.getPlanet())) hasMatchingInfo = true;
-        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "BLONDE", "TALL")) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsMultipleTraits(individual.getTraits(), "BLONDE", "TALL")) hasMatchingInfo = true;
         if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 5000) hasMatchingInfo = true;
 
         return hasMatchingInfo;
@@ -266,11 +266,11 @@ public class Main {
         if (individual.isHumanoid() != null && individual.isHumanoid() == true) return false;  // must NOT be humanoid
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 400)) return false;
         if (individual.getPlanet() != null && !"Kashyyyk".equals(individual.getPlanet())) return false;
-        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "HAIRY", "TALL")) return false;
+        if (individual.getTraits() != null && !containsMultipleTraits(individual.getTraits(), "HAIRY", "TALL")) return false;
 
         boolean hasMatchingInfo = false;
         if ("Kashyyyk".equals(individual.getPlanet())) hasMatchingInfo = true;
-        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "HAIRY", "TALL")) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsMultipleTraits(individual.getTraits(), "HAIRY", "TALL")) hasMatchingInfo = true;
         if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 400) hasMatchingInfo = true;
 
         return hasMatchingInfo;
@@ -280,11 +280,11 @@ public class Main {
         if (individual.isHumanoid() != null && individual.isHumanoid() == true) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 60)) return false;
         if (individual.getPlanet() != null && !"Endor".equals(individual.getPlanet())) return false;
-        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "SHORT", "HAIRY")) return false;
+        if (individual.getTraits() != null && !containsMultipleTraits(individual.getTraits(), "SHORT", "HAIRY")) return false;
 
         boolean hasMatchingInfo = false;
         if ("Endor".equals(individual.getPlanet())) hasMatchingInfo = true;
-        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "SHORT", "HAIRY")) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsMultipleTraits(individual.getTraits(), "SHORT", "HAIRY")) hasMatchingInfo = true;
         if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 60) hasMatchingInfo = true;
 
         return hasMatchingInfo;
@@ -294,11 +294,11 @@ public class Main {
         if (individual.isHumanoid() != null && individual.isHumanoid() == false) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 100)) return false;
         if (individual.getPlanet() != null && !"Betelgeuse".equals(individual.getPlanet())) return false;
-        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "EXTRA_ARMS", "EXTRA_HEAD")) return false;
+        if (individual.getTraits() != null && !containsMultipleTraits(individual.getTraits(), "EXTRA_ARMS", "EXTRA_HEAD")) return false;
 
         boolean hasMatchingInfo = false;
         if ("Betelgeuse".equals(individual.getPlanet())) hasMatchingInfo = true;
-        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "EXTRA_ARMS", "EXTRA_HEAD")) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsMultipleTraits(individual.getTraits(), "EXTRA_ARMS", "EXTRA_HEAD")) hasMatchingInfo = true;
         if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 100) hasMatchingInfo = true;
 
         return hasMatchingInfo;
@@ -308,11 +308,11 @@ public class Main {
         if (individual.isHumanoid() != null && individual.isHumanoid() == true) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
         if (individual.getPlanet() != null && !"Vogsphere".equals(individual.getPlanet())) return false;
-        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "GREEN", "BULKY")) return false;
+        if (individual.getTraits() != null && !containsMultipleTraits(individual.getTraits(), "GREEN", "BULKY")) return false;
 
         boolean hasMatchingInfo = false;
         if ("Vogsphere".equals(individual.getPlanet())) hasMatchingInfo = true;
-        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "GREEN", "BULKY")) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsMultipleTraits(individual.getTraits(), "GREEN", "BULKY")) hasMatchingInfo = true;
         if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 200) hasMatchingInfo = true;
 
         return hasMatchingInfo;
@@ -322,11 +322,11 @@ public class Main {
         if (individual.isHumanoid() != null && individual.isHumanoid() == false) return false;
         if (individual.getAge() != null && individual.getAge() < 0) return false;  // no upper limit
         if (individual.getPlanet() != null && !"Earth".equals(individual.getPlanet())) return false;
-        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "BLONDE", "POINTY_EARS")) return false;
+        if (individual.getTraits() != null && !containsMultipleTraits(individual.getTraits(), "BLONDE", "POINTY_EARS")) return false;
 
         boolean hasMatchingInfo = false;
         if ("Earth".equals(individual.getPlanet())) hasMatchingInfo = true;
-        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "BLONDE", "POINTY_EARS")) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsMultipleTraits(individual.getTraits(), "BLONDE", "POINTY_EARS")) hasMatchingInfo = true;
         if (individual.getAge() != null && individual.getAge() >= 0) hasMatchingInfo = true;
 
         return hasMatchingInfo;
@@ -336,25 +336,26 @@ public class Main {
         if (individual.isHumanoid() != null && individual.isHumanoid() == false) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
         if (individual.getPlanet() != null && !"Earth".equals(individual.getPlanet())) return false;
-        if (individual.getTraits() != null && !containsAnyTrait(individual.getTraits(), "SHORT", "BULKY")) return false;
+        if (individual.getTraits() != null && !containsMultipleTraits(individual.getTraits(), "SHORT", "BULKY")) return false;
 
         boolean hasMatchingInfo = false;
         if ("Earth".equals(individual.getPlanet())) hasMatchingInfo = true;
-        if (individual.getTraits() != null && containsAnyTrait(individual.getTraits(), "SHORT", "BULKY")) hasMatchingInfo = true;
+        if (individual.getTraits() != null && containsMultipleTraits(individual.getTraits(), "SHORT", "BULKY")) hasMatchingInfo = true;
         if (individual.getAge() != null && individual.getAge() >= 0 && individual.getAge() <= 200) hasMatchingInfo = true;
 
         return hasMatchingInfo;
     }
 
     // helper to check if list contains ANY of the required traits
-    private static boolean containsAnyTrait(List<String> traits, String... requiredTraits) {
+    private static boolean containsMultipleTraits(List<String> traits, String... requiredTraits) {
         if (traits == null) return false;
+        int count = 0;
         for (String required : requiredTraits) {
             if (traits.contains(required)) {
-                return true;
+                count++;
             }
         }
-        return false;
+        return count >= 2;  // at least 2 traits required
     }
 
     public static void main(String[] args) {

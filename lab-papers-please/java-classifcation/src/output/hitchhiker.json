@@ -8,34 +8,6 @@
     "universe" : "HITCHHIKER",
     "humanoid" : true
   }, {
-    "id" : 2,
-    "planet" : null,
-    "age" : null,
-    "traits" : [ "BULKY" ],
-    "universe" : "HITCHHIKER",
-    "humanoid" : false
-  }, {
-    "id" : 6,
-    "planet" : null,
-    "age" : 26,
-    "traits" : [ "EXTRA_ARMS" ],
-    "universe" : "HITCHHIKER",
-    "humanoid" : null
-  }, {
-    "id" : 8,
-    "planet" : null,
-    "age" : 82,
-    "traits" : [ "EXTRA_HEAD" ],
-    "universe" : "HITCHHIKER",
-    "humanoid" : null
-  }, {
-    "id" : 11,
-    "planet" : null,
-    "age" : 128,
-    "traits" : [ "GREEN" ],
-    "universe" : "HITCHHIKER",
-    "humanoid" : false
-  }, {
     "id" : 16,
     "planet" : "Vogsphere",
     "age" : 128,
