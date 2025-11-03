@@ -68,6 +68,20 @@ class Display {
             System.out.println("Models are the same size.");
         }
     }
+
+    public void compareSharpness(Display m) {
+        System.out.println("Comparing sharpness: ");
+        System.out.println(this.model + " has " + this.ppi + "ppi");
+        System.out.println(m.model + " has " + m.ppi + "ppi");
+
+        if (this.ppi > m.ppi) {
+            System.out.println("Result: " + this.model + " has more PPI than" + m.model);
+        }
+
+        if (this.ppi < m.ppi) {
+            System.out.println("Result: " + m.model + " has more PPI than" + this.model);
+        }
+    }
 }
 
 public class Main {
