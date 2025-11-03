@@ -45,8 +45,28 @@ class Display {
         return model;
     }
 
-    public void compareSize(Display m) {
+    private double getDiagonalSize() {
+        return Math.sqrt(width * width + height * height);
+    }
 
+    public void compareSize(Display m) {
+        double thisSize = this.getDiagonalSize();
+        double otherSize = m.getDiagonalSize();
+        System.out.println("Comparing the sizes: ");
+        System.out.println(this.model + " is " + this.width + "x" + this.height +
+                            ", its diagonal is " + thisSize);
+        System.out.println(m.model + " is " + m.width + "x" + m.height +
+                            ", its diagonal is " + otherSize);
+
+        if (thisSize > otherSize) {
+            System.out.println("Result: " + this.model + " is larger than " + m.model);
+        }
+        else if (thisSize < otherSize) {
+            System.out.println("Result: " + m.model + " is larger than " + this.model);
+        }
+        else {
+            System.out.println("Models are the same size.");
+        }
     }
 }
 
