@@ -75,12 +75,58 @@ class Display {
         System.out.println(m.model + " has " + m.ppi + "ppi");
 
         if (this.ppi > m.ppi) {
-            System.out.println("Result: " + this.model + " has more PPI than" + m.model);
+            System.out.println("Result: " + this.model + " has more PPI than " + m.model);
         }
 
         if (this.ppi < m.ppi) {
-            System.out.println("Result: " + m.model + " has more PPI than" + this.model);
+            System.out.println("Result: " + m.model + " has more PPI than " + this.model);
         }
+    }
+
+    public void compareWithMonitor(Display m) {
+        System.out.println("Comparing " + this.model + " with " + m.model);
+        double thisSize = this.getDiagonalSize();
+        double otherSize = m.getDiagonalSize();
+
+        if (thisSize > otherSize) {
+            System.out.println(this.model + " is larger.");
+        }
+        else if (thisSize < otherSize) {
+            System.out.println(m.model + "is larger.");
+        }
+        else  {
+            System.out.println("Same size.");
+        }
+
+        if (this.ppi > m.ppi) {
+            System.out.println(this.model + " is sharper.");
+        }
+        else if  (this.ppi < m.ppi) {
+            System.out.println(m.model + " is sharper.");
+        }
+        else {
+            System.out.println("Equal sharpness.");
+        }
+
+        boolean thisBigger = thisSize > otherSize;
+        boolean thisSharper = this.ppi > m.ppi;
+
+        if (thisBigger && thisSharper) {
+            System.out.println(this.model + " excels in sharpness and size!");
+        }
+
+        else if (!thisBigger && thisSharper) {
+            System.out.println(this.model + " is sharper, but smaller than " + m.model);
+        }
+
+        else if (thisBigger && !thisSharper) {
+            System.out.println(m.model + " is sharper, but smaller than " + this.model);
+        }
+
+        else if (!thisBigger && !thisSharper) {
+            System.out.println(m.model + " excels in sharpness and size!");
+        }
+        System.out.println();
     }
 }
 
