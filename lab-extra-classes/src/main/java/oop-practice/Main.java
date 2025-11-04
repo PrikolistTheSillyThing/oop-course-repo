@@ -29,22 +29,6 @@ class Display {
     }
     */
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public float getPpi() {
-        return ppi;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
     private double getDiagonalSize() {
         return Math.sqrt(width * width + height * height);
     }
@@ -143,9 +127,9 @@ class Display {
 
 public class Main {
     public static void main(String[] args) {
-        Display monitor1 = new Display(1920, 1080, 140.5f, "Cool Monitor 9000");
-        Display monitor2 = new Display(2560, 1440, 130f, "Ultra Epic Monitor 10000");
-        Display monitor3 = new Display(3840, 2160, 120f, "The COOLEST MONITOR 12000");
+        var monitor1 = new Display(1920, 1080, 140.5f, "Cool Monitor 9000");
+        var monitor2 = new Display(2560, 1440, 130f, "Ultra Epic Monitor 10000");
+        var monitor3 = new Display(3840, 2160, 120f, "The COOLEST MONITOR 12000");
 
         monitor1.compareSize(monitor2);
         monitor2.compareSharpness(monitor3);
