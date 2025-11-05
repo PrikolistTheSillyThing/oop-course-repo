@@ -119,10 +119,38 @@ class TextData {
         return text;
     }
 
+    public void printInfo() {
+        System.out.println("Text Analysis");
+        System.out.println("File: " + fileName);
+        System.out.println("Content: " + text);
+        System.out.println("\nNumberOfVowels: " + numberOfVowels);
+        System.out.println("NumberOfConsonants: " + numberOfConsonants);
+        System.out.println("NumberOfLetters: " + numberOfLetters);
+        System.out.println("NumberOfSentences: " + numberOfSentences);
+        System.out.println("Longest Word: " + longestWord);
+    }
+
 }
 
 public class Main2 {
     public static void main(String[] args) {
-        System.out.println("Hello World");
+        if (args.length == 0) {
+            System.out.println("Usage: java Main2 <path-to-text-file>");
+            return;
+        }
+        var filePath = args[0];
+
+        var reader = new FileReader();
+        var fileContent = reader.readFileIntoString(filePath);
+
+        if (fileContent == null) {
+            return;
+        }
+
+        var fileName = new File(filePath).getName();
+
+        var textData = new TextData(fileName, fileContent);
+
+        textData.printInfo();
     }
 }
