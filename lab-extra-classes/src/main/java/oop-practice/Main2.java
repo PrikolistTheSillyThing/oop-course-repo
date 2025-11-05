@@ -35,7 +35,9 @@ class TextData {
         this.fileName = fileName;
         this.text = text;
         calculateVowelsAndConsonants();
-
+        calculateLetters();
+        calculateSentences();
+        findLongestWord();
     }
 
     private void calculateVowelsAndConsonants() {
@@ -87,6 +89,34 @@ class TextData {
                 longestWord = cleanedWord;
             }
         }
+    }
+
+    public int getNumberOfVowels() {
+        return numberOfVowels;
+    }
+
+    public int getNumberOfConsonants() {
+        return numberOfConsonants;
+    }
+
+    public int getNumberOfLetters() {
+        return numberOfLetters;
+    }
+
+    public int getNumberOfSentences() {
+        return numberOfSentences;
+    }
+
+    public String getLongestWord() {
+        return longestWord;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public String getText() {
+        return text;
     }
 
 }
