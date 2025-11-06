@@ -33,6 +33,22 @@ class Display {
         return Math.sqrt(width * width + height * height);
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public float getPpi() {
+        return ppi;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
     public void compareSize(Display m) {
         double thisSize = this.getDiagonalSize();
         double otherSize = m.getDiagonalSize();
