@@ -112,6 +112,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Welcome to the student management system.");
+        mainLoop();
     }
 
     private static void mainLoop() {
@@ -123,7 +124,7 @@ public class Main {
             System.out.println("q - quit program");
             System.out.println("\nyour input>");
 
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim().toLowerCase();
             switch (choice) {
                 case "g":
                     generalOperations();
@@ -144,6 +145,54 @@ public class Main {
     }
 
     private static void generalOperations() {
+        while (true) {
+            System.out.println("\nGeneral Operations");
+            System.out.println("What do you want to do?");
+            System.out.println("\nnf/<faculty name>/<faculty abbreviation>/<field> - create faculty");
+            System.out.println("ss/<student email> - search student and show faculty");
+            System.out.println("df - display faculties");
+            System.out.println("df/<field> - display all faculties of a field");
+            System.out.println("\nb - Back");
+            System.out.println("q - quit program");
+            System.out.println("\nyour input>");
+
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("Bye!");
+                return;
+            }
+            else if (input.startsWith("nf/")) {
+                createFaculty(input);
+            }
+            else if (input.startsWith("ss")) {
+                searchStudent(input);
+            }
+            else if (input.equalsIgnoreCase("df")) {
+                displayFaculties();
+            }
+            else if (input.startsWith("df/")) {
+                displayFacultiesByField(input);
+            }
+            else {
+                System.out.println("Invalid input. Please try again.");
+            }
+        }
+    }
+
+    private static void createFaculty(String input) {
+
+    }
+
+    private static void searchStudent(String input) {
+
+    }
+
+    private static void displayFaculties() {
+
+    }
+
+    private static void displayFacultiesByField(String input) {
 
     }
 
