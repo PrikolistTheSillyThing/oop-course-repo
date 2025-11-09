@@ -68,14 +68,21 @@ class Faculty {
     }
 
     public boolean hasStudent(String email) {
-        return students.stream().anyMatch(s -> s.getEmail().equalsIgnoreCase(email));
+        for (Student s : students) {
+            if (s.getEmail().equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Student findStudentByEmail(String email) {
-        return students.stream()
-                .filter(s -> s.getEmail().equalsIgnoreCase(email))
-                .findFirst()
-                .orElse(null);
+        for (Student s : students) {
+            if (s.getEmail().equalsIgnoreCase(email)) {
+                return s;
+            }
+        }
+        return null;
     }
 
     public List<Student> getEnrolledStudents() {
@@ -124,7 +131,7 @@ public class Main {
             System.out.println("q - quit program");
             System.out.println("\nyour input>");
 
-            String choice = scanner.nextLine().trim().toLowerCase();
+            String choice = scanner.nextLine().trim();
             switch (choice) {
                 case "g":
                     generalOperations();
@@ -184,19 +191,85 @@ public class Main {
     }
 
     private static void createFaculty(String input) {
+        var parts = input.split("/");
+        if  (parts.length != 4) {
+            System.out.println("Invalid input. Please try again.");
+        }
+
+        var name = parts[1];
+        var abbreviation = parts[2];
+        var fieldStr = parts[3].toUpperCase();
+
+        try {
+            StudyField field = StudyField.valueOf(fieldStr);
+            var faculty = new Faculty(name, abbreviation, field);
+            faculties.add(faculty);
+            System.out.println("Faculty created successfully: " + faculty);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid study field. Available fields: " + Arrays.toString(StudyField.values()));
+        }
 
     }
 
     private static void searchStudent(String input) {
+        var parts = input.split("/");
+        if (parts.length != 2) {
+            System.out.println("Invalid input. Please try again.");
+        }
 
+        var email = parts[1];
+
+        for (var faculty : faculties) {
+            if (faculty.hasStudent(email)) {
+                Student student = faculty.findStudentByEmail(email);
+                System.out.println("Student found in faculty: " + faculty.getName());
+                System.out.println("Student details: " + student);
+                return;
+            }
+        }
+
+        System.out.println("Student not found in any faculty.");
     }
 
     private static void displayFaculties() {
+        if (faculties.isEmpty()) {
+            System.out.println("No faculties found.");
+            return;
+        }
 
+        System.out.println("\nUniversity Faculties:");
+        for (Faculty faculty : faculties) {
+            System.out.println("- " + faculty);
+        }
     }
 
     private static void displayFacultiesByField(String input) {
+        var parts = input.split("/");
+        if (parts.length != 2) {
+            System.out.println("Invalid format. Use: df/<field>");
+            return;
+        }
 
+        var fieldStr = parts[1].toUpperCase();
+
+        try {
+            StudyField field = StudyField.valueOf(fieldStr);
+            boolean found = false;
+
+            System.out.println("\nFaculties in field " + field + ":");
+            for (Faculty faculty : faculties) {
+                if (faculty.getStudyField() == field) {
+                    System.out.println("- " + faculty);
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                System.out.println("No faculties found in this field.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid study field. Available fields: " + Arrays.toString(StudyField.values()));
+        }
     }
 
 
@@ -213,7 +286,7 @@ public class Main {
             System.out.println("q - Quit Program");
             System.out.print("\nyour input> ");
 
-            String input = scanner.nextLine().trim().toLowerCase();
+            var input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equalsIgnoreCase("b")) {
                 return;
@@ -237,27 +310,159 @@ public class Main {
     }
 
     private static void createStudent(String input) {
+        String[] parts = input.split("/");
+        if (parts.length != 7) {
+            System.out.println("Invalid format. Use: ns/<faculty abbr>/<first>/<last>/<email>/<day>/<month>/<year>");
+            return;
+        }
 
+        var facultyAbbr = parts[1];
+        var firstName = parts[2];
+        var lastName = parts[3];
+        var email = parts[4];
+
+        Faculty faculty = findFacultyByAbbreviation(facultyAbbr);
+        if (faculty == null) {
+            System.out.println("Faculty not found.");
+            return;
+        }
+
+        try {
+            var day = Integer.parseInt(parts[5]);
+            var month = Integer.parseInt(parts[6]) - 1; // Calendar months are 0-based
+            var year = Integer.parseInt(parts[7]);
+
+            var cal = Calendar.getInstance();
+            cal.set(year, month, day);
+            var birthDate = cal.getTime();
+
+            Student student = new Student(firstName, lastName, email, birthDate);
+            faculty.addStudent(student);
+            System.out.println("Student created and assigned to " + faculty.getName());
+            System.out.println("Student: " + student);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid date format.");
+        }
     }
 
     private static void displayEnrolledStudents(String input) {
+        String[] parts = input.split("/");
+        if (parts.length != 2) {
+            System.out.println("Invalid format. Use: ds/<faculty abbreviation>");
+            return;
+        }
 
+        var abbreviation = parts[1];
+        Faculty faculty = findFacultyByAbbreviation(abbreviation);
+
+        if (faculty == null) {
+            System.out.println("Faculty not found.");
+            return;
+        }
+
+        List<Student> enrolled = faculty.getEnrolledStudents();
+        if (enrolled.isEmpty()) {
+            System.out.println("No enrolled students in " + faculty.getName());
+            return;
+        }
+
+        System.out.println("\nEnrolled students in " + faculty.getName() + ":");
+        for (Student student : enrolled) {
+            System.out.println("- " + student);
+        }
     }
 
     private static void displayGraduates(String input) {
+        String[] parts = input.split("/");
+        if (parts.length != 2) {
+            System.out.println("Invalid format. Use: dg/<faculty abbreviation>");
+            return;
+        }
 
+        var abbreviation = parts[1];
+        Faculty faculty = findFacultyByAbbreviation(abbreviation);
+
+        if (faculty == null) {
+            System.out.println("Faculty not found.");
+            return;
+        }
+
+        List<Student> graduates = faculty.getGraduates();
+        if (graduates.isEmpty()) {
+            System.out.println("No graduates in " + faculty.getName());
+            return;
+        }
+
+        System.out.println("\nGraduates from " + faculty.getName() + ":");
+        for (Student student : graduates) {
+            System.out.println("- " + student);
+        }
     }
 
     private static void checkStudentBelongsToFaculty(String input) {
+        String[] parts = input.split("/");
+        if (parts.length != 3) {
+            System.out.println("Invalid format. Use: bf/<faculty abbreviation>/<email>");
+            return;
+        }
 
+        String abbreviation = parts[1];
+        String email = parts[2];
+
+        Faculty faculty = findFacultyByAbbreviation(abbreviation);
+
+        if (faculty == null) {
+            System.out.println("Faculty not found.");
+            return;
+        }
+
+        if (faculty.hasStudent(email)) {
+            var student = faculty.findStudentByEmail(email);
+            System.out.println("Yes, student belongs to " + faculty.getName());
+            System.out.println("Student: " + student);
+        } else {
+            System.out.println("No, student does not belong to " + faculty.getName());
+        }
     }
 
     private static void graduateStudent(String input) {
+        String[] parts = input.split("/");
+        if (parts.length != 2) {
+            System.out.println("Invalid format. Use: gs/<email>");
+            return;
+        }
 
+        String email = parts[1];
+
+        for (Faculty faculty : faculties) {
+            var student = faculty.findStudentByEmail(email);
+            if (student != null) {
+                if (student.isGraduated()) {
+                    System.out.println("Student is already graduated.");
+                } else {
+                    student.setGraduated(true);
+                    System.out.println("Student graduated successfully: " + student);
+                }
+                return;
+            }
+        }
+
+        System.out.println("Student not found.");
+    }
+
+    private static Faculty findFacultyByAbbreviation(String abbreviation) {
+        for (Faculty faculty : faculties) {
+            if (faculty.getAbbreviation().equalsIgnoreCase(abbreviation)) {
+                return faculty;
+            }
+        }
+        return null;
     }
 
     private static void studentOperations() {
-
+        System.out.println("\nStudent operations (not implemented yet)");
+        System.out.println("Press Enter to go back...");
+        scanner.nextLine();
     }
 }
 
