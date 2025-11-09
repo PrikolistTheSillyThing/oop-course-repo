@@ -174,6 +174,9 @@ public class Main {
             else if (input.startsWith("df/")) {
                 displayFacultiesByField(input);
             }
+            else if (input.equalsIgnoreCase("b")) {
+                return;
+            }
             else {
                 System.out.println("Invalid input. Please try again.");
             }
@@ -196,11 +199,64 @@ public class Main {
 
     }
 
-    private static void studentOperations() {
+
+    private static void facultyOperations() {
+        while (true) {
+            System.out.println("\nFaculty Operations");
+            System.out.println("What do you want to do?");
+            System.out.println("\nns/<faculty abbreviation>/<first name>/<last name>/<email>/<day>/<month>/<year> - create student");
+            System.out.println("gs/<email> - (g)raduate (s)tudent");
+            System.out.println("ds/<faculty abbreviation> - (d)isplay enrolled (s)tudents");
+            System.out.println("dg/<faculty abbreviation> - (d)isplay (g)raduated students");
+            System.out.println("bf/<faculty abbreviation>/<email> - check if student (b)elongs to (f)aculty");
+            System.out.println("\nb - Back");
+            System.out.println("q - Quit Program");
+            System.out.print("\nyour input> ");
+
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            if (input.equalsIgnoreCase("b")) {
+                return;
+            } else if (input.equalsIgnoreCase("q")) {
+                System.out.println("Goodbye!");
+                System.exit(0);
+            } else if (input.startsWith("ns/")) {
+                createStudent(input);
+            } else if (input.startsWith("gs/")) {
+                graduateStudent(input);
+            } else if (input.startsWith("ds/")) {
+                displayEnrolledStudents(input);
+            } else if (input.startsWith("dg/")) {
+                displayGraduates(input);
+            } else if (input.startsWith("bf/")) {
+                checkStudentBelongsToFaculty(input);
+            } else {
+                System.out.println("Invalid command.");
+            }
+        }
+    }
+
+    private static void createStudent(String input) {
 
     }
 
-    private static void facultyOperations() {
+    private static void displayEnrolledStudents(String input) {
+
+    }
+
+    private static void displayGraduates(String input) {
+
+    }
+
+    private static void checkStudentBelongsToFaculty(String input) {
+
+    }
+
+    private static void graduateStudent(String input) {
+
+    }
+
+    private static void studentOperations() {
 
     }
 }
