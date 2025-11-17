@@ -34,11 +34,17 @@ class Student {
     public Date getEnrollmentDate() { return enrollmentDate; }
     public Date getDateOfBirth() { return dateOfBirth; }
     public boolean isGraduated() { return graduated; }
+
     public void setGraduated(boolean graduated) { this.graduated = graduated; }
+
+    // Added setter for loading saved data
+    public void setEnrollmentDate(Date enrollmentDate) {
+        this.enrollmentDate = enrollmentDate;
+    }
 
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        var sdf = new SimpleDateFormat("dd/MM/yyyy");
         return firstName + " " + lastName + " (" + email + ") - Enrolled: " +
                 sdf.format(enrollmentDate) + (graduated ? " [GRADUATED]" : " [ENROLLED]");
     }
@@ -68,7 +74,7 @@ class Faculty {
     }
 
     public boolean hasStudent(String email) {
-        for (Student s : students) {
+        for (var s : students) {
             if (s.getEmail().equalsIgnoreCase(email)) {
                 return true;
             }
@@ -77,7 +83,7 @@ class Faculty {
     }
 
     public Student findStudentByEmail(String email) {
-        for (Student s : students) {
+        for (var s : students) {
             if (s.getEmail().equalsIgnoreCase(email)) {
                 return s;
             }
@@ -87,7 +93,7 @@ class Faculty {
 
     public List<Student> getEnrolledStudents() {
         List<Student> enrolled = new ArrayList<>();
-        for (Student s : students) {
+        for (var s : students) {
             if (!s.isGraduated()) {
                 enrolled.add(s);
             }
@@ -97,7 +103,7 @@ class Faculty {
 
     public List<Student> getGraduates() {
         List<Student> graduates = new ArrayList<>();
-        for (Student s : students) {
+        for (var s : students) {
             if (s.isGraduated()) {
                 graduates.add(s);
             }
@@ -119,7 +125,14 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Welcome to the student management system.");
+
+        // Load saved data on startup
+        faculties = FileManager.loadData();
+
         mainLoop();
+
+        // Save data before exiting
+        FileManager.saveData(faculties);
     }
 
     private static void mainLoop() {
@@ -143,6 +156,8 @@ public class Main {
                     studentOperations();
                     break;
                 case "q":
+                    System.out.println("Saving data...");
+                    FileManager.saveData(faculties);
                     System.out.println("Bye!");
                     return;
                 default:
@@ -159,6 +174,8 @@ public class Main {
             System.out.println("ss/<student email> - search student and show faculty");
             System.out.println("df - display faculties");
             System.out.println("df/<field> - display all faculties of a field");
+            System.out.println("save - manually save data");
+            System.out.println("backup - create backup of data");
             System.out.println("\nb - Back");
             System.out.println("q - quit program");
             System.out.println("\nyour input>");
@@ -166,13 +183,15 @@ public class Main {
             String input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equalsIgnoreCase("q")) {
+                System.out.println("Saving data...");
+                FileManager.saveData(faculties);
                 System.out.println("Bye!");
-                return;
+                System.exit(0);
             }
             else if (input.startsWith("nf/")) {
                 createFaculty(input);
             }
-            else if (input.startsWith("ss")) {
+            else if (input.startsWith("ss/")) {
                 searchStudent(input);
             }
             else if (input.equalsIgnoreCase("df")) {
@@ -180,6 +199,12 @@ public class Main {
             }
             else if (input.startsWith("df/")) {
                 displayFacultiesByField(input);
+            }
+            else if (input.equalsIgnoreCase("save")) {
+                FileManager.saveData(faculties);
+            }
+            else if (input.equalsIgnoreCase("backup")) {
+                FileManager.backupData();
             }
             else if (input.equalsIgnoreCase("b")) {
                 return;
@@ -194,6 +219,7 @@ public class Main {
         var parts = input.split("/");
         if  (parts.length != 4) {
             System.out.println("Invalid input. Please try again.");
+            return;
         }
 
         var name = parts[1];
@@ -208,13 +234,13 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid study field. Available fields: " + Arrays.toString(StudyField.values()));
         }
-
     }
 
     private static void searchStudent(String input) {
         var parts = input.split("/");
         if (parts.length != 2) {
             System.out.println("Invalid input. Please try again.");
+            return;
         }
 
         var email = parts[1];
@@ -253,7 +279,7 @@ public class Main {
         var fieldStr = parts[1].toUpperCase();
 
         try {
-            StudyField field = StudyField.valueOf(fieldStr);
+            var field = StudyField.valueOf(fieldStr);
             boolean found = false;
 
             System.out.println("\nFaculties in field " + field + ":");
@@ -271,7 +297,6 @@ public class Main {
             System.out.println("Invalid study field. Available fields: " + Arrays.toString(StudyField.values()));
         }
     }
-
 
     private static void facultyOperations() {
         while (true) {
@@ -291,6 +316,8 @@ public class Main {
             if (input.equalsIgnoreCase("b")) {
                 return;
             } else if (input.equalsIgnoreCase("q")) {
+                System.out.println("Saving data...");
+                FileManager.saveData(faculties);
                 System.out.println("Goodbye!");
                 System.exit(0);
             } else if (input.startsWith("ns/")) {
@@ -311,7 +338,7 @@ public class Main {
 
     private static void createStudent(String input) {
         String[] parts = input.split("/");
-        if (parts.length != 7) {
+        if (parts.length != 8) {
             System.out.println("Invalid format. Use: ns/<faculty abbr>/<first>/<last>/<email>/<day>/<month>/<year>");
             return;
         }
@@ -353,7 +380,7 @@ public class Main {
         }
 
         var abbreviation = parts[1];
-        Faculty faculty = findFacultyByAbbreviation(abbreviation);
+        var faculty = findFacultyByAbbreviation(abbreviation);
 
         if (faculty == null) {
             System.out.println("Faculty not found.");
@@ -406,10 +433,10 @@ public class Main {
             return;
         }
 
-        String abbreviation = parts[1];
-        String email = parts[2];
+        var abbreviation = parts[1];
+        var email = parts[2];
 
-        Faculty faculty = findFacultyByAbbreviation(abbreviation);
+        var faculty = findFacultyByAbbreviation(abbreviation);
 
         if (faculty == null) {
             System.out.println("Faculty not found.");
@@ -426,13 +453,13 @@ public class Main {
     }
 
     private static void graduateStudent(String input) {
-        String[] parts = input.split("/");
+        var parts = input.split("/");
         if (parts.length != 2) {
             System.out.println("Invalid format. Use: gs/<email>");
             return;
         }
 
-        String email = parts[1];
+        var email = parts[1];
 
         for (Faculty faculty : faculties) {
             var student = faculty.findStudentByEmail(email);
@@ -451,7 +478,7 @@ public class Main {
     }
 
     private static Faculty findFacultyByAbbreviation(String abbreviation) {
-        for (Faculty faculty : faculties) {
+        for (var faculty : faculties) {
             if (faculty.getAbbreviation().equalsIgnoreCase(abbreviation)) {
                 return faculty;
             }
