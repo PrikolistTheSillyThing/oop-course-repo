@@ -1,23 +1,25 @@
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Scanner;
 
-class FileReader {
+class ReadFile {
     public String readFileIntoString(String path) {
-        var content = new StringBuilder();
         var file = new File(path);
+        var content = new StringBuilder();
+
         try (var scanner = new Scanner(file)) {
-            while(scanner.hasNextLine()) {
-                content.append(scanner.nextLine());
-                if (scanner.hasNextLine()) {
-                    content.append("\n");
-                }
+            while (scanner.hasNextLine()) {
+                var data = scanner.nextLine();
+                content.append(data);
+                content.append("\n");
             }
         }
-        catch(FileNotFoundException e) {
-            System.out.println("File not found: " + path);
+        catch (FileNotFoundException e) {
+            System.out.println("File not found");
             e.printStackTrace();
         }
+
         return content.toString();
     }
 }
@@ -25,70 +27,23 @@ class FileReader {
 class TextData {
     private String fileName;
     private String text;
+    private int numberOfLetters;
     private int numberOfVowels;
     private int numberOfConsonants;
-    private int numberOfLetters;
     private int numberOfSentences;
     private String longestWord;
 
-    public TextData(String fileName, String text) {
-        this.fileName = fileName;
+    public TextData(String text) {
         this.text = text;
-        calculateVowelsAndConsonants();
-        calculateLetters();
-        calculateSentences();
-        findLongestWord();
+        this.numberOfLetters = calculateLetters();
+        this.numberOfVowels = calculateVowels();
+        this.numberOfConsonants = calculateConsonants();
+        this.numberOfSentences = calculateSentences();
+        this.longestWord = findLongestWord();
     }
 
-    private void calculateVowelsAndConsonants() {
-        numberOfVowels = 0;
-        numberOfConsonants = 0;
-        var lowerText = text.toLowerCase();
-
-        for (int i = 0; i < lowerText.length(); i++) {
-            var c = lowerText.charAt(i);
-
-            if (Character.isLetter(c)) {
-                if (c == 'a' || c == 'e' || c == 'o' || c == 'u' || c == 'i') {
-                    numberOfVowels++;
-                }
-                else {
-                    numberOfConsonants++;
-                }
-            }
-        }
-
-    }
-
-    private void calculateLetters() {
-        numberOfLetters = 0;
-        for (int i = 0; i < text.length(); i++) {
-            var c = text.charAt(i);
-            if (Character.isLetter(c)) {
-                numberOfLetters++;
-            }
-        }
-    }
-    private void calculateSentences() {
-        numberOfSentences = 0;
-        for (int i = 0; i < text.length(); i++) {
-            var c = text.charAt(i);
-            if (c == '!' || c == '.' || c == '?') {
-                numberOfSentences++;
-            }
-        }
-    }
-
-    private void findLongestWord() {
-        longestWord = "";
-        var words = text.split("\\s+");
-
-        for (var word : words) {
-            var cleanedWord = word.replaceAll("[^a-zA-Z]","");
-            if (cleanedWord.length() > longestWord.length()) {
-                longestWord = cleanedWord;
-            }
-        }
+    public int getNumberOfLetters() {
+        return numberOfLetters;
     }
 
     public int getNumberOfVowels() {
@@ -99,10 +54,6 @@ class TextData {
         return numberOfConsonants;
     }
 
-    public int getNumberOfLetters() {
-        return numberOfLetters;
-    }
-
     public int getNumberOfSentences() {
         return numberOfSentences;
     }
@@ -111,46 +62,99 @@ class TextData {
         return longestWord;
     }
 
-    public String getFileName() {
-        return fileName;
+    private int calculateLetters() {
+        int count = 0;
+
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+
+            if (Character.isLetter(c)) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
-    public String getText() {
-        return text;
+    private int calculateVowels() {
+        int count = 0;
+
+
+        for (int i = 0; i < text.length(); i++) {
+            char c = Character.toLowerCase(text.charAt(i));
+
+            if (c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'a') {
+                count++;
+            }
+        }
+
+        return count;
     }
 
-    public void printInfo() {
-        System.out.println("Text Analysis");
-        System.out.println("File: " + fileName);
-        System.out.println("Content: " + text);
-        System.out.println("\nNumberOfVowels: " + numberOfVowels);
-        System.out.println("NumberOfConsonants: " + numberOfConsonants);
-        System.out.println("NumberOfLetters: " + numberOfLetters);
-        System.out.println("NumberOfSentences: " + numberOfSentences);
-        System.out.println("Longest Word: " + longestWord);
+    private int calculateConsonants() {
+        return numberOfLetters - numberOfVowels;
     }
 
+    private int calculateSentences() {
+        int count = 0;
+
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+
+            if (c == '.' || c == '?' || c == '!') {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private String findLongestWord() {
+        var longestWord = "";
+        var words = text.split("\\s+");
+
+        for (int i = 0; i < words.length; i++) {
+            var word = words[i];
+            word = word.replaceAll("[^a-zA-Z]", "");
+
+            if (word.length() > longestWord.length()) {
+                longestWord = word;
+            }
+        }
+
+        return longestWord;
+    }
 }
 
 public class Main2 {
     public static void main(String[] args) {
         if (args.length == 0) {
-            System.out.println("Usage: java Main2 <path-to-text-file>");
-            return;
-        }
-        var filePath = args[0];
-
-        var reader = new FileReader();
-        var fileContent = reader.readFileIntoString(filePath);
-
-        if (fileContent == null) {
+            System.out.println("Please provide a filename");
             return;
         }
 
-        var fileName = new File(filePath).getName();
+        var readFile = new ReadFile();
+        for (int i = 0; i < args.length; i++) {
+            var filePath = args[i];
+            var text = readFile.readFileIntoString(filePath);
 
-        var textData = new TextData(fileName, fileContent);
+            var maxSentences = 0;
+            var fileWithMostSentences = "";
 
-        textData.printInfo();
+            var textData = new TextData(text);
+
+            // Print info for this file
+            System.out.println("\n=== File " + (i + 1) + ": " + filePath + " ===");
+            System.out.println("Number of vowels: " + textData.getNumberOfVowels());
+            System.out.println("Number of consonants: " + textData.getNumberOfConsonants());
+            System.out.println("Number of letters: " + textData.getNumberOfLetters());
+            System.out.println("Number of sentences: " + textData.getNumberOfSentences());
+            System.out.println("Longest word: " + textData.getLongestWord());
+
+            if (textData.getLongestWord().length() > maxSentences) {
+                maxSentences = textData.getNumberOfSentences();
+                fileWithMostSentences = filePath;
+            }
+        }
     }
 }
