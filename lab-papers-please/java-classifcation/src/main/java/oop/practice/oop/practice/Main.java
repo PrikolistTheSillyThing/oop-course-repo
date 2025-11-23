@@ -76,7 +76,7 @@ class Individual {
 
 class Files {
     void createFile() {
-        File file = new  File("lab-papers-please\\java-classifcation\\src\\main\\resources\\input.json");
+        File file = new  File("lab-papers-please/input.json");
         try {
             if (file.createNewFile()) {
                 System.out.println("File created: " + file.toPath().getFileName());
@@ -342,7 +342,7 @@ public class Main {
     public static void main(String[] args) {
         Files files = new Files();
         files.createFile();
-        File fileObj = new File("lab-papers-please\\java-classifcation\\src\\main\\resources\\input.json");
+        File fileObj = new File("lab-papers-please/input.json");
         List<Individual> individuals = files.readJsonFile(fileObj);
         System.out.println("Total individuals: " + individuals.size());
 

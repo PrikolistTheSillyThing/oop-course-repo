@@ -50,13 +50,13 @@ class Assistant {
             System.out.println(assistantName + ": No displays to compare");
             return null;
         }
-        var biggest =  assignedDisplays.get(0);
+        var biggestDisplay = assignedDisplays.get(0);
         for (Display d : assignedDisplays) {
-            if (d.getDiagonal() > biggest.getDiagonal()) {
-                biggest = d;
+            if (d.getDiagonal() > biggestDisplay.getDiagonal()) {
+                biggestDisplay = d;
             }
         }
-        return buyDisplay(biggest);
+        return buyDisplay(biggestDisplay);
     }
 }
 

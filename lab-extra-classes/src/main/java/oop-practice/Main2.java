@@ -128,18 +128,20 @@ class TextData {
 
 public class Main2 {
     public static void main(String[] args) {
+
         if (args.length == 0) {
             System.out.println("Please provide a filename");
             return;
         }
 
+        var maxConsonants = 0;
+        var fileMaxConsonantsFile = "";
+
         var readFile = new ReadFile();
         for (int i = 0; i < args.length; i++) {
+
             var filePath = args[i];
             var text = readFile.readFileIntoString(filePath);
-
-            var maxSentences = 0;
-            var fileWithMostSentences = "";
 
             var textData = new TextData(text);
 
@@ -151,10 +153,14 @@ public class Main2 {
             System.out.println("Number of sentences: " + textData.getNumberOfSentences());
             System.out.println("Longest word: " + textData.getLongestWord());
 
-            if (textData.getLongestWord().length() > maxSentences) {
-                maxSentences = textData.getNumberOfSentences();
-                fileWithMostSentences = filePath;
+            if (textData.getNumberOfVowels() > maxConsonants) {
+                maxConsonants = textData.getNumberOfVowels();
+                fileMaxConsonantsFile = filePath;
             }
         }
+        System.out.println("File with the most words: " + fileMaxConsonantsFile);
+        System.out.println(maxConsonants);
+
+
     }
 }
