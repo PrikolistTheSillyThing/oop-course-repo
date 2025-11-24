@@ -37,6 +37,10 @@ class Coffee {
         return name;
     }
 
+    public void printCoffeeDetails() {
+        System.out.println("Coffee intensity: " + coffeeIntensity);
+    }
+
 }
 
 class Cappuccino extends Coffee {
@@ -63,6 +67,11 @@ class Cappuccino extends Coffee {
 
     public String getCoffee() {
         return coffee;
+    }
+
+    public void printCoffeeDetails() {
+        super.printCoffeeDetails();
+        System.out.println("Cappuccino milk: " + getMlOfMilk() + " ml");
     }
 }
 
@@ -91,11 +100,16 @@ class Americano extends Coffee {
     public String getCoffeeName() {
         return coffeeName;
     }
+
+    public void printCoffeeDetails() {
+        super.printCoffeeDetails();
+        System.out.println("Americano water: " + getMlOfWater() + " ml");
+    }
 }
 
 class PumpkinSpiceLatte extends Cappuccino {
     private int mgOfPumpkinSpice;
-    private final String name = "PumpkinSpiceLatte";
+    private final String name = "Pumpkin Spice Latte";
 
     public PumpkinSpiceLatte() {
         super();
@@ -118,11 +132,16 @@ class PumpkinSpiceLatte extends Cappuccino {
     public String getName() {
         return name;
     }
+
+    public void printCoffeeDetails() {
+        super.printCoffeeDetails();
+        System.out.println("Pumpkin spice: "  + getMgOfPumpkinSpice() + " mg");
+    }
 }
 
 class SyrupCappuccino extends Cappuccino {
     private SyrupType syrup;
-    private final String coffeeName = "SyrupCappuccino";
+    private final String coffeeName = "Syrup Cappuccino";
 
     public SyrupCappuccino() {
         super();
@@ -145,10 +164,16 @@ class SyrupCappuccino extends Cappuccino {
     public String  getCoffeeName() {
         return coffeeName;
     }
+
+    public void  printCoffeeDetails() {
+        super.printCoffeeDetails();
+        System.out.println("Syrup in the cappuccino: " + syrup);
+    }
 }
 
 public class Main {
     public static void main (String[] args) {
-
+        var sc = new SyrupCappuccino(Intensity.LIGHT, 50, SyrupType.VANILLA);
+        sc.printCoffeeDetails();
     }
 }
