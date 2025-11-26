@@ -13,14 +13,20 @@ public class Barista {
     public Coffee makeCoffee(Intensity intensity) {
         System.out.println("Making Coffee");
         brewCoffee(intensity);
-        return new Coffee(intensity);
+
+        var coffee = new Coffee(intensity);
+        coffee.printCoffeeDetails();
+        return coffee;
     }
 
     public Cappuccino makeCappuccino(Intensity intensity, int mlOfMilk) {
         System.out.println("Making Cappuccino");
         brewCoffee(intensity);
         addMilk(mlOfMilk);
-        return new Cappuccino(intensity, mlOfMilk);
+
+        var drink = new Cappuccino(intensity, mlOfMilk);
+        drink.printCoffeeDetails();
+        return drink;
     }
 
     public PumpkinSpiceLatte makePumpkinSpiceLatte(Intensity intensity, int mlOfMilk, int mgOfPumpkinSpice) {
@@ -28,7 +34,10 @@ public class Barista {
         brewCoffee(intensity);
         addMilk(mlOfMilk);
         System.out.println("Adding " + mgOfPumpkinSpice + " mg of pumpkin spice");
-        return new PumpkinSpiceLatte(intensity, mlOfMilk, mgOfPumpkinSpice);
+
+        var drink = new PumpkinSpiceLatte(intensity, mlOfMilk, mgOfPumpkinSpice);
+        drink.printCoffeeDetails();
+        return drink;
     }
 
     public SyrupCappuccino makeSyrupCappuccino(Intensity intensity, int mlOfMilk, SyrupType syrup) {
@@ -36,13 +45,19 @@ public class Barista {
         brewCoffee(intensity);
         addMilk(mlOfMilk);
         System.out.println("Syrup set to " + syrup);
-        return new SyrupCappuccino(intensity, mlOfMilk, syrup);
+
+        var drink = new SyrupCappuccino(intensity, mlOfMilk, syrup);
+        drink.printCoffeeDetails();
+        return drink;
     }
 
     public Americano makeAmericano(Intensity intensity, int mlOfWater) {
         System.out.println("Making Americano");
         brewCoffee(intensity);
         System.out.println("Adding " + mlOfWater + " ml of water");
-        return new Americano(intensity, mlOfWater);
+
+        var drink = new Americano(intensity, mlOfWater);
+        drink.printCoffeeDetails();
+        return drink;
     }
 }
