@@ -1,5 +1,4 @@
-package oop_practice.barista;
-import oop_practice.coffee.*;
+package oop_practice.coffee;
 
 public class Barista {
 

@@ -1,6 +1,6 @@
 package oop_practice.coffee;
 
-public class Americano extends Coffee {
+class Americano extends Coffee {
     private int mlOfWater;
     private final String coffeeName = "Americano";
 

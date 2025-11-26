@@ -1,6 +1,6 @@
 package oop_practice.coffee;
 
-public class SyrupCappuccino extends Cappuccino {
+class SyrupCappuccino extends Cappuccino {
     private SyrupType syrup;
     private final String coffeeName = "Syrup Cappuccino";
 

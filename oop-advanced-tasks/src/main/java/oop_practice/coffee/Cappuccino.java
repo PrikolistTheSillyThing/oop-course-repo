@@ -1,6 +1,6 @@
 package oop_practice.coffee;
 
-public class Cappuccino extends Coffee {
+class Cappuccino extends Coffee {
     private int mlOfMilk;
     private final String coffee = "Cappuccino";
 

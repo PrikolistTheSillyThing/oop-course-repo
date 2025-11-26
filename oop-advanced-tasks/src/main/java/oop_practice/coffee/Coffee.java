@@ -1,6 +1,6 @@
 package oop_practice.coffee;
 
-public class Coffee {
+class Coffee {
     private Intensity coffeeIntensity;
     private final String name = "coffee";
 
