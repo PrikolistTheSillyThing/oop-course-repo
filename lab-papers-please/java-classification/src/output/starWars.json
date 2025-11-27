@@ -50,6 +50,20 @@
     "universe" : "STAR_WARS",
     "humanoid" : false
   }, {
+    "id" : 39,
+    "originPlanet" : "KASHYYYK",
+    "age" : 255,
+    "physicalTraits" : [ "HAIRY" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 40,
+    "originPlanet" : "ENDOR",
+    "age" : 17,
+    "physicalTraits" : [ "HAIRY" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
     "id" : 41,
     "originPlanet" : null,
     "age" : 3,
@@ -99,6 +113,13 @@
     "universe" : "STAR_WARS",
     "humanoid" : null
   }, {
+    "id" : 79,
+    "originPlanet" : "ENDOR",
+    "age" : null,
+    "physicalTraits" : [ "HAIRY" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
     "id" : 80,
     "originPlanet" : "KASHYYYK",
     "age" : 101,
@@ -106,10 +127,31 @@
     "universe" : "STAR_WARS",
     "humanoid" : false
   }, {
+    "id" : 87,
+    "originPlanet" : "ENDOR",
+    "age" : 14,
+    "physicalTraits" : [ "HAIRY" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : null
+  }, {
     "id" : 88,
     "originPlanet" : "ENDOR",
     "age" : 58,
     "physicalTraits" : null,
+    "universe" : "STAR_WARS",
+    "humanoid" : null
+  }, {
+    "id" : 89,
+    "originPlanet" : null,
+    "age" : 17,
+    "physicalTraits" : [ "HAIRY" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 92,
+    "originPlanet" : "ENDOR",
+    "age" : 60,
+    "physicalTraits" : [ "HAIRY" ],
     "universe" : "STAR_WARS",
     "humanoid" : null
   }, {
@@ -141,6 +183,20 @@
     "universe" : "STAR_WARS",
     "humanoid" : false
   }, {
+    "id" : 101,
+    "originPlanet" : null,
+    "age" : 50,
+    "physicalTraits" : [ "HAIRY" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 104,
+    "originPlanet" : null,
+    "age" : 64,
+    "physicalTraits" : [ "GREEN" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
     "id" : 105,
     "originPlanet" : "KASHYYYK",
     "age" : 259,
@@ -148,10 +204,38 @@
     "universe" : "STAR_WARS",
     "humanoid" : false
   }, {
+    "id" : 108,
+    "originPlanet" : "KASHYYYK",
+    "age" : null,
+    "physicalTraits" : [ "HAIRY" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 122,
+    "originPlanet" : "KASHYYYK",
+    "age" : 80,
+    "physicalTraits" : [ "TALL" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 126,
+    "originPlanet" : "ENDOR",
+    "age" : 60,
+    "physicalTraits" : [ "SHORT" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
     "id" : 132,
     "originPlanet" : "KASHYYYK",
     "age" : 29,
     "physicalTraits" : [ "HAIRY", "TALL" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 133,
+    "originPlanet" : null,
+    "age" : 153,
+    "physicalTraits" : [ "BULKY", "GREEN" ],
     "universe" : "STAR_WARS",
     "humanoid" : false
   }, {
@@ -176,10 +260,38 @@
     "universe" : "STAR_WARS",
     "humanoid" : false
   }, {
+    "id" : 162,
+    "originPlanet" : null,
+    "age" : 188,
+    "physicalTraits" : [ "TALL" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 175,
+    "originPlanet" : null,
+    "age" : 17,
+    "physicalTraits" : [ "HAIRY" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
     "id" : 177,
     "originPlanet" : "KASHYYYK",
     "age" : 217,
     "physicalTraits" : [ "HAIRY", "TALL" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 180,
+    "originPlanet" : "ENDOR",
+    "age" : 31,
+    "physicalTraits" : [ "SHORT" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
+  }, {
+    "id" : 182,
+    "originPlanet" : "ENDOR",
+    "age" : null,
+    "physicalTraits" : [ "SHORT" ],
     "universe" : "STAR_WARS",
     "humanoid" : false
   }, {
@@ -189,6 +301,13 @@
     "physicalTraits" : [ "HAIRY", "TALL" ],
     "universe" : "STAR_WARS",
     "humanoid" : false
+  }, {
+    "id" : 185,
+    "originPlanet" : "ENDOR",
+    "age" : null,
+    "physicalTraits" : [ "SHORT" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : null
   }, {
     "id" : 186,
     "originPlanet" : "ENDOR",
@@ -203,6 +322,13 @@
     "physicalTraits" : [ "HAIRY", "SHORT" ],
     "universe" : "STAR_WARS",
     "humanoid" : null
+  }, {
+    "id" : 193,
+    "originPlanet" : "KASHYYYK",
+    "age" : 86,
+    "physicalTraits" : [ "HAIRY" ],
+    "universe" : "STAR_WARS",
+    "humanoid" : false
   }, {
     "id" : 195,
     "originPlanet" : "KASHYYYK",

@@ -77,10 +77,8 @@ class Files {
         try {
             ObjectMapper mapper = new ObjectMapper();
             List<Individual> individuals = mapper.readValue(
-                    obj,
-                    new TypeReference<List<Individual>>() {}
+                    obj, new TypeReference<List<Individual>>() {}
             );
-            System.out.println("All individuals loaded successfully");
             return individuals;
         }
         catch (IOException e) {
@@ -143,22 +141,32 @@ public class Main {
     private static boolean hasIdentifyingInfo(Individual individual, String expectedPlanet,
                                               Boolean expectedHumanoid, int minAge, int maxAge,
                                               String... expectedTraits) {
-        // Planet match is strong identifying info
-        if (expectedPlanet.equals(individual.getOriginPlanet())) return true;
+        int evidencePoints = 0;
 
-        // Has all required traits is strong identifying info
-        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
-            if (hasAllTraits(individual, expectedTraits)) return true;
+        if (expectedPlanet.equals(individual.getOriginPlanet())) {
+            evidencePoints += 2;
         }
 
-        // Age in range AND humanoid matches is moderate identifying info
-        if (individual.getAge() != null && individual.getAge() >= minAge && individual.getAge() <= maxAge) {
-            if (individual.isHumanoid() != null && individual.isHumanoid() == expectedHumanoid) {
-                return true;
+        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
+            if (hasAllTraits(individual, expectedTraits)) {
+                evidencePoints += 2;
             }
         }
 
-        return false;
+        if (individual.isHumanoid() != null && individual.isHumanoid() == expectedHumanoid) {
+            evidencePoints += 1;
+        }
+
+        if (individual.getAge() != null && individual.getAge() >= minAge && individual.getAge() <= maxAge) {
+            evidencePoints += 1;
+        }
+
+        if (maxAge == Integer.MAX_VALUE && individual.getAge() != null && individual.getAge() > 5000) {
+            return true;
+        }
+
+        // Need at least 2 evidence points to classify
+        return evidencePoints >= 2;
     }
 
     private static void classifyIndividual(Individual individual) {
@@ -196,19 +204,17 @@ public class Main {
             individual.setUniverse(possibleUniverses.get(0));
         } else {
             individual.setUniverse(Universe.UNDEFINED);
+            System.out.println("UNDEFINED ID " + individual.getId() + ": humanoid=" +
+                    individual.isHumanoid() + ", planet=" + individual.getOriginPlanet() +
+                    ", age=" + individual.getAge() + ", traits=" + individual.getPhysicalTraits());
         }
     }
 
     private static boolean canBeAsgardian(Individual individual) {
-        // Check for contradictions
+        // Check for direct contradictions only
         if (individual.isHumanoid() != null && !individual.isHumanoid()) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 5000)) return false;
         if (individual.getOriginPlanet() != null && !"ASGARD".equals(individual.getOriginPlanet())) return false;
-
-        // If traits exist, they must ALL match
-        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
-            if (!hasAllTraits(individual, "BLONDE", "TALL")) return false;
-        }
 
         return hasIdentifyingInfo(individual, "ASGARD", true, 0, 5000, "BLONDE", "TALL");
     }
@@ -218,10 +224,6 @@ public class Main {
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 400)) return false;
         if (individual.getOriginPlanet() != null && !"KASHYYYK".equals(individual.getOriginPlanet())) return false;
 
-        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
-            if (!hasAllTraits(individual, "HAIRY", "TALL")) return false;
-        }
-
         return hasIdentifyingInfo(individual, "KASHYYYK", false, 0, 400, "HAIRY", "TALL");
     }
 
@@ -229,10 +231,6 @@ public class Main {
         if (individual.isHumanoid() != null && individual.isHumanoid()) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 60)) return false;
         if (individual.getOriginPlanet() != null && !"ENDOR".equals(individual.getOriginPlanet())) return false;
-
-        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
-            if (!hasAllTraits(individual, "SHORT", "HAIRY")) return false;
-        }
 
         return hasIdentifyingInfo(individual, "ENDOR", false, 0, 60, "SHORT", "HAIRY");
     }
@@ -242,10 +240,6 @@ public class Main {
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 100)) return false;
         if (individual.getOriginPlanet() != null && !"BETELGEUSE".equals(individual.getOriginPlanet())) return false;
 
-        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
-            if (!hasAllTraits(individual, "EXTRA_ARMS", "EXTRA_HEAD")) return false;
-        }
-
         return hasIdentifyingInfo(individual, "BETELGEUSE", true, 0, 100, "EXTRA_ARMS", "EXTRA_HEAD");
     }
 
@@ -253,10 +247,6 @@ public class Main {
         if (individual.isHumanoid() != null && individual.isHumanoid()) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
         if (individual.getOriginPlanet() != null && !"VOGSPHERE".equals(individual.getOriginPlanet())) return false;
-
-        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
-            if (!hasAllTraits(individual, "GREEN", "BULKY")) return false;
-        }
 
         return hasIdentifyingInfo(individual, "VOGSPHERE", false, 0, 200, "GREEN", "BULKY");
     }
@@ -266,10 +256,6 @@ public class Main {
         if (individual.getAge() != null && individual.getAge() < 0) return false;
         if (individual.getOriginPlanet() != null && !"EARTH".equals(individual.getOriginPlanet())) return false;
 
-        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
-            if (!hasAllTraits(individual, "BLONDE", "POINTY_EARS")) return false;
-        }
-
         return hasIdentifyingInfo(individual, "EARTH", true, 0, Integer.MAX_VALUE, "BLONDE", "POINTY_EARS");
     }
 
@@ -277,10 +263,6 @@ public class Main {
         if (individual.isHumanoid() != null && !individual.isHumanoid()) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
         if (individual.getOriginPlanet() != null && !"EARTH".equals(individual.getOriginPlanet())) return false;
-
-        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
-            if (!hasAllTraits(individual, "SHORT", "BULKY")) return false;
-        }
 
         return hasIdentifyingInfo(individual, "EARTH", true, 0, 200, "SHORT", "BULKY");
     }
@@ -333,28 +315,28 @@ public class Main {
             }
         }
 
-        System.out.println("\n----MARVEL Universe (" + marvelCount + " individuals)----");
+        System.out.println("\nMARVEL Universe (" + marvelCount + " individuals)----");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.MARVEL) {
                 System.out.println("ID: " + individual.getId() + ", from " + individual.getOriginPlanet());
             }
         }
 
-        System.out.println("\n----HITCHHIKER Universe (" + hitchhikerCount + " individuals)----");
+        System.out.println("\nHITCHHIKER Universe (" + hitchhikerCount + " individuals)----");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.HITCHHIKER) {
                 System.out.println("ID: " + individual.getId() + ", from " + individual.getOriginPlanet());
             }
         }
 
-        System.out.println("\n----LORD OF THE RINGS Universe (" + lordOfTheRingsCount + " individuals)----");
+        System.out.println("\nLORD OF THE RINGS Universe (" + lordOfTheRingsCount + " individuals)----");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.LORD_OF_THE_RINGS) {
                 System.out.println("ID: " + individual.getId() + ", from " + individual.getOriginPlanet());
             }
         }
 
-        System.out.println("\n----UNDEFINED Universe (" + undefinedCount + " individuals)----");
+        System.out.println("\nUNDEFINED Universe (" + undefinedCount + " individuals)----");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.UNDEFINED) {
                 System.out.println("ID: " + individual.getId() + " - Insufficient information");
@@ -362,14 +344,12 @@ public class Main {
         }
 
         // Print summary
-        System.out.println("\n========== CLASSIFICATION SUMMARY ==========");
         System.out.println("Total individuals processed: " + individuals.size());
         System.out.println("Star Wars:        " + starWarsCount);
         System.out.println("Marvel:           " + marvelCount);
         System.out.println("Hitchhiker:       " + hitchhikerCount);
         System.out.println("Lord of the Rings: " + lordOfTheRingsCount);
         System.out.println("Undefined:        " + undefinedCount);
-        System.out.println("============================================");
 
         System.out.println("\nWriting output files...");
 

@@ -36,12 +36,40 @@
     "universe" : "MARVEL",
     "humanoid" : true
   }, {
+    "id" : 56,
+    "originPlanet" : "ASGARD",
+    "age" : null,
+    "physicalTraits" : [ "BLONDE" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
+  }, {
+    "id" : 57,
+    "originPlanet" : "ASGARD",
+    "age" : null,
+    "physicalTraits" : [ "TALL" ],
+    "universe" : "MARVEL",
+    "humanoid" : null
+  }, {
     "id" : 61,
     "originPlanet" : null,
     "age" : 2954,
     "physicalTraits" : [ "BLONDE", "TALL" ],
     "universe" : "MARVEL",
     "humanoid" : null
+  }, {
+    "id" : 64,
+    "originPlanet" : "ASGARD",
+    "age" : null,
+    "physicalTraits" : [ "BLONDE" ],
+    "universe" : "MARVEL",
+    "humanoid" : null
+  }, {
+    "id" : 65,
+    "originPlanet" : null,
+    "age" : 30,
+    "physicalTraits" : [ "EXTRA_ARMS" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
   }, {
     "id" : 71,
     "originPlanet" : null,
@@ -57,12 +85,40 @@
     "universe" : "MARVEL",
     "humanoid" : true
   }, {
+    "id" : 83,
+    "originPlanet" : null,
+    "age" : 88,
+    "physicalTraits" : [ "EXTRA_ARMS", "EXTRA_HEAD" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
+  }, {
+    "id" : 90,
+    "originPlanet" : "ASGARD",
+    "age" : 3526,
+    "physicalTraits" : [ "TALL" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
+  }, {
+    "id" : 95,
+    "originPlanet" : "ASGARD",
+    "age" : 2340,
+    "physicalTraits" : [ "TALL" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
+  }, {
     "id" : 103,
     "originPlanet" : "ASGARD",
     "age" : 1446,
     "physicalTraits" : null,
     "universe" : "MARVEL",
     "humanoid" : true
+  }, {
+    "id" : 106,
+    "originPlanet" : "ASGARD",
+    "age" : null,
+    "physicalTraits" : [ "BLONDE" ],
+    "universe" : "MARVEL",
+    "humanoid" : null
   }, {
     "id" : 112,
     "originPlanet" : "ASGARD",
@@ -96,6 +152,20 @@
     "originPlanet" : null,
     "age" : 114,
     "physicalTraits" : null,
+    "universe" : "MARVEL",
+    "humanoid" : true
+  }, {
+    "id" : 145,
+    "originPlanet" : null,
+    "age" : 89,
+    "physicalTraits" : [ "EXTRA_HEAD" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
+  }, {
+    "id" : 148,
+    "originPlanet" : null,
+    "age" : 265,
+    "physicalTraits" : [ "BLONDE" ],
     "universe" : "MARVEL",
     "humanoid" : true
   }, {
@@ -138,6 +208,20 @@
     "originPlanet" : "ASGARD",
     "age" : 289,
     "physicalTraits" : [ "TALL", "BLONDE" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
+  }, {
+    "id" : 184,
+    "originPlanet" : null,
+    "age" : 64,
+    "physicalTraits" : [ "SHORT" ],
+    "universe" : "MARVEL",
+    "humanoid" : true
+  }, {
+    "id" : 189,
+    "originPlanet" : null,
+    "age" : 4438,
+    "physicalTraits" : [ "BLONDE" ],
     "universe" : "MARVEL",
     "humanoid" : true
   }, {

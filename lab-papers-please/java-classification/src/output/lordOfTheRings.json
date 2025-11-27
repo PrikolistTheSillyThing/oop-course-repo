@@ -1,9 +1,30 @@
 {
   "name" : "lordOfTheRings",
   "individuals" : [ {
+    "id" : 0,
+    "originPlanet" : "EARTH",
+    "age" : null,
+    "physicalTraits" : [ "POINTY_EARS" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
+  }, {
+    "id" : 2,
+    "originPlanet" : "EARTH",
+    "age" : null,
+    "physicalTraits" : [ "BLONDE" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
     "id" : 4,
     "originPlanet" : "EARTH",
     "age" : 17601,
+    "physicalTraits" : null,
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
+  }, {
+    "id" : 5,
+    "originPlanet" : null,
+    "age" : 5955,
     "physicalTraits" : null,
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : null
@@ -14,6 +35,13 @@
     "physicalTraits" : null,
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : true
+  }, {
+    "id" : 18,
+    "originPlanet" : "EARTH",
+    "age" : 10026,
+    "physicalTraits" : [ "POINTY_EARS" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
   }, {
     "id" : 23,
     "originPlanet" : "EARTH",
@@ -36,10 +64,24 @@
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : true
   }, {
+    "id" : 27,
+    "originPlanet" : null,
+    "age" : 19272,
+    "physicalTraits" : [ "POINTY_EARS" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
     "id" : 29,
     "originPlanet" : "EARTH",
     "age" : 10461,
     "physicalTraits" : null,
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
+    "id" : 30,
+    "originPlanet" : "EARTH",
+    "age" : null,
+    "physicalTraits" : [ "POINTY_EARS" ],
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : true
   }, {
@@ -50,10 +92,45 @@
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : null
   }, {
+    "id" : 43,
+    "originPlanet" : "EARTH",
+    "age" : 107,
+    "physicalTraits" : [ "SHORT" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
     "id" : 49,
     "originPlanet" : null,
     "age" : 4,
     "physicalTraits" : [ "BULKY", "SHORT" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
+  }, {
+    "id" : 58,
+    "originPlanet" : null,
+    "age" : 18934,
+    "physicalTraits" : [ "BLONDE" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
+  }, {
+    "id" : 59,
+    "originPlanet" : "EARTH",
+    "age" : 118,
+    "physicalTraits" : [ "SHORT" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
+    "id" : 62,
+    "originPlanet" : "EARTH",
+    "age" : null,
+    "physicalTraits" : [ "POINTY_EARS" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
+  }, {
+    "id" : 66,
+    "originPlanet" : "EARTH",
+    "age" : null,
+    "physicalTraits" : [ "SHORT" ],
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : null
   }, {
@@ -64,12 +141,33 @@
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : true
   }, {
+    "id" : 72,
+    "originPlanet" : "EARTH",
+    "age" : 124,
+    "physicalTraits" : [ "BULKY" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
+    "id" : 78,
+    "originPlanet" : null,
+    "age" : 6094,
+    "physicalTraits" : null,
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
+  }, {
     "id" : 81,
     "originPlanet" : "EARTH",
     "age" : 1112,
     "physicalTraits" : [ "BLONDE", "POINTY_EARS" ],
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : true
+  }, {
+    "id" : 82,
+    "originPlanet" : null,
+    "age" : 10791,
+    "physicalTraits" : [ "POINTY_EARS" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
   }, {
     "id" : 84,
     "originPlanet" : "EARTH",
@@ -85,12 +183,26 @@
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : null
   }, {
+    "id" : 96,
+    "originPlanet" : "EARTH",
+    "age" : null,
+    "physicalTraits" : [ "BULKY" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
+  }, {
     "id" : 109,
     "originPlanet" : "EARTH",
     "age" : 23,
     "physicalTraits" : [ "BULKY", "SHORT" ],
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : true
+  }, {
+    "id" : 110,
+    "originPlanet" : "EARTH",
+    "age" : 178,
+    "physicalTraits" : [ "SHORT" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
   }, {
     "id" : 114,
     "originPlanet" : null,
@@ -103,6 +215,13 @@
     "originPlanet" : "EARTH",
     "age" : 35,
     "physicalTraits" : [ "BULKY", "SHORT" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
+  }, {
+    "id" : 120,
+    "originPlanet" : "EARTH",
+    "age" : null,
+    "physicalTraits" : [ "BULKY" ],
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : true
   }, {
