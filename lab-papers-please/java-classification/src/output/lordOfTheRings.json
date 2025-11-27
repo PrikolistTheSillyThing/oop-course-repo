@@ -85,6 +85,13 @@
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : true
   }, {
+    "id" : 33,
+    "originPlanet" : null,
+    "age" : 134,
+    "physicalTraits" : [ "SHORT" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : null
+  }, {
     "id" : 35,
     "originPlanet" : "EARTH",
     "age" : 184,
@@ -301,6 +308,13 @@
     "physicalTraits" : [ "POINTY_EARS", "BLONDE" ],
     "universe" : "LORD_OF_THE_RINGS",
     "humanoid" : null
+  }, {
+    "id" : 184,
+    "originPlanet" : null,
+    "age" : 64,
+    "physicalTraits" : [ "SHORT" ],
+    "universe" : "LORD_OF_THE_RINGS",
+    "humanoid" : true
   }, {
     "id" : 187,
     "originPlanet" : "EARTH",

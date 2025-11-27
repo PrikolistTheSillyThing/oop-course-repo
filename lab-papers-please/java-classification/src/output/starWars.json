@@ -190,13 +190,6 @@
     "universe" : "STAR_WARS",
     "humanoid" : false
   }, {
-    "id" : 104,
-    "originPlanet" : null,
-    "age" : 64,
-    "physicalTraits" : [ "GREEN" ],
-    "universe" : "STAR_WARS",
-    "humanoid" : false
-  }, {
     "id" : 105,
     "originPlanet" : "KASHYYYK",
     "age" : 259,
@@ -229,13 +222,6 @@
     "originPlanet" : "KASHYYYK",
     "age" : 29,
     "physicalTraits" : [ "HAIRY", "TALL" ],
-    "universe" : "STAR_WARS",
-    "humanoid" : false
-  }, {
-    "id" : 133,
-    "originPlanet" : null,
-    "age" : 153,
-    "physicalTraits" : [ "BULKY", "GREEN" ],
     "universe" : "STAR_WARS",
     "humanoid" : false
   }, {

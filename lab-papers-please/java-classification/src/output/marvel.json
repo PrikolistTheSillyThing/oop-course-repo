@@ -64,13 +64,6 @@
     "universe" : "MARVEL",
     "humanoid" : null
   }, {
-    "id" : 65,
-    "originPlanet" : null,
-    "age" : 30,
-    "physicalTraits" : [ "EXTRA_ARMS" ],
-    "universe" : "MARVEL",
-    "humanoid" : true
-  }, {
     "id" : 71,
     "originPlanet" : null,
     "age" : 3711,
@@ -82,13 +75,6 @@
     "originPlanet" : "ASGARD",
     "age" : null,
     "physicalTraits" : [ "BLONDE", "TALL" ],
-    "universe" : "MARVEL",
-    "humanoid" : true
-  }, {
-    "id" : 83,
-    "originPlanet" : null,
-    "age" : 88,
-    "physicalTraits" : [ "EXTRA_ARMS", "EXTRA_HEAD" ],
     "universe" : "MARVEL",
     "humanoid" : true
   }, {
@@ -134,44 +120,9 @@
     "universe" : "MARVEL",
     "humanoid" : true
   }, {
-    "id" : 130,
-    "originPlanet" : null,
-    "age" : 1463,
-    "physicalTraits" : null,
-    "universe" : "MARVEL",
-    "humanoid" : true
-  }, {
     "id" : 140,
     "originPlanet" : "ASGARD",
     "age" : 4297,
-    "physicalTraits" : null,
-    "universe" : "MARVEL",
-    "humanoid" : true
-  }, {
-    "id" : 142,
-    "originPlanet" : null,
-    "age" : 114,
-    "physicalTraits" : null,
-    "universe" : "MARVEL",
-    "humanoid" : true
-  }, {
-    "id" : 145,
-    "originPlanet" : null,
-    "age" : 89,
-    "physicalTraits" : [ "EXTRA_HEAD" ],
-    "universe" : "MARVEL",
-    "humanoid" : true
-  }, {
-    "id" : 148,
-    "originPlanet" : null,
-    "age" : 265,
-    "physicalTraits" : [ "BLONDE" ],
-    "universe" : "MARVEL",
-    "humanoid" : true
-  }, {
-    "id" : 153,
-    "originPlanet" : null,
-    "age" : 3701,
     "physicalTraits" : null,
     "universe" : "MARVEL",
     "humanoid" : true
@@ -208,20 +159,6 @@
     "originPlanet" : "ASGARD",
     "age" : 289,
     "physicalTraits" : [ "TALL", "BLONDE" ],
-    "universe" : "MARVEL",
-    "humanoid" : true
-  }, {
-    "id" : 184,
-    "originPlanet" : null,
-    "age" : 64,
-    "physicalTraits" : [ "SHORT" ],
-    "universe" : "MARVEL",
-    "humanoid" : true
-  }, {
-    "id" : 189,
-    "originPlanet" : null,
-    "age" : 4438,
-    "physicalTraits" : [ "BLONDE" ],
     "universe" : "MARVEL",
     "humanoid" : true
   }, {

@@ -128,166 +128,139 @@ class UniverseOutput {
 
 public class Main {
 
-    // checks for ALL traits. 1 missing - fail
+    // scoring logic from message.txt
+    private static int matchScore(Individual ind, String planet, Boolean humanoid, int maxAge, String... traits) {
+        int score = 0;
 
-    private static boolean hasAllTraits(Individual individual, String... requiredTraits) {
-        if (individual.getPhysicalTraits() == null) return false;
-        for (String trait : requiredTraits) {
-            if (!individual.getPhysicalTraits().contains(trait)) {
-                return false;
-            }
-        }
-        return true;
-    }
-    // string... for 0 1 or multiple arguments
-    private static boolean hasIdentifyingInfo(Individual individual, String expectedPlanet, Boolean expectedHumanoid, int minAge, int maxAge, String... expectedTraits) {
-        int evidencePoints = 0;
+        if (ind.getOriginPlanet() != null && ind.getOriginPlanet().equals(planet))
+            score += 3;
 
-        //planet - 2 points
+        if (ind.isHumanoid() != null && ind.isHumanoid().equals(humanoid))
+            score += 1;
 
-        if (expectedPlanet.equals(individual.getOriginPlanet())) {
-            evidencePoints += 2;
-        }
+        if (ind.getAge() != null && ind.getAge() <= maxAge)
+            score += 1;
 
-        // traits - 2 points (EVERY EXPECTED TRAIT!!!!)
-
-        if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
-            if (hasAllTraits(individual, expectedTraits)) {
-                evidencePoints += 2;
+        if (ind.getPhysicalTraits() != null) {
+            for (String t : ind.getPhysicalTraits()) {
+                for (String req : traits) {
+                    if (t.equals(req)) score++;
+                }
             }
         }
 
-        //humanoid - only 1 point
-
-        if (individual.isHumanoid() != null && individual.isHumanoid() == expectedHumanoid) {
-            evidencePoints += 1;
-        }
-
-        // age - 1 point
-        if (individual.getAge() != null && individual.getAge() >= minAge && individual.getAge() <= maxAge) {
-            evidencePoints += 1;
-        }
-
-        // older than 5000 - ELF!! straight up
-        if (maxAge == Integer.MAX_VALUE && individual.getAge() != null && individual.getAge() > 5000) {
-            return true;
-        }
-
-        // at least 2 evidence points to classify
-        return evidencePoints >= 2;
+        return score;
     }
 
-    // create empty list to collect all universes person may belong to..
-    private static void classifyIndividual(Individual individual) {
-        List<Universe> possibleUniverses = new ArrayList<>();
-
-
-        // run through each species check. if can be species - add universe to list
-
-        if (canBeAsgardian(individual)) {
-            possibleUniverses.add(Universe.MARVEL);
-        }
-
-        if (canBeWookie(individual)) {
-            possibleUniverses.add(Universe.STAR_WARS);
-        }
-
-        if (canBeEwok(individual)) {
-            possibleUniverses.add(Universe.STAR_WARS);
-        }
-
-        if (canBeBetelgeusian(individual)) {
-            possibleUniverses.add(Universe.HITCHHIKER);
-        }
-
-        if (canBeVogon(individual)) {
-            possibleUniverses.add(Universe.HITCHHIKER);
-        }
-
-        if (canBeElf(individual)) {
-            possibleUniverses.add(Universe.LORD_OF_THE_RINGS);
-        }
-
-        if (canBeDwarf(individual)) {
-            possibleUniverses.add(Universe.LORD_OF_THE_RINGS);
-        }
-
-        // if any universe works - pick the first. if none - undefined
-
-        if (!possibleUniverses.isEmpty()) {
-            individual.setUniverse(possibleUniverses.get(0));
-        } else {
-            individual.setUniverse(Universe.UNDEFINED);
-            System.out.println("UNDEFINED ID " + individual.getId() + ": humanoid=" +
-                    individual.isHumanoid() + ", planet=" + individual.getOriginPlanet() +
-                    ", age=" + individual.getAge() + ", traits=" + individual.getPhysicalTraits());
-        }
+    private static boolean canBeAsgardian(Individual ind) {
+        int score = matchScore(ind, "ASGARD", true, 5000, "BLONDE", "TALL");
+        if (ind.getOriginPlanet() != null && ind.getOriginPlanet().equals("ASGARD")) return true;
+        return score > 0;
     }
 
-    // if data contradicts - fail immediately
-    // if data is missing (null) - not used in classification
-
-    private static boolean canBeAsgardian(Individual individual) {
-        if (individual.isHumanoid() != null && !individual.isHumanoid()) return false;
-        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 5000)) return false;
-        if (individual.getOriginPlanet() != null && !"ASGARD".equals(individual.getOriginPlanet())) return false;
-
-        // if hard constraints passed - delegate to scorung system
-        return hasIdentifyingInfo(individual, "ASGARD", true, 0, 5000, "BLONDE", "TALL");
+    private static boolean canBeWookie(Individual ind) {
+        int score = matchScore(ind, "KASHYYYK", false, 400, "HAIRY", "TALL");
+        if (ind.getOriginPlanet() != null && ind.getOriginPlanet().equals("KASHYYYK")) return true;
+        return score > 0;
     }
 
-    private static boolean canBeWookie(Individual individual) {
-        if (individual.isHumanoid() != null && individual.isHumanoid()) return false;
-        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 400)) return false;
-        if (individual.getOriginPlanet() != null && !"KASHYYYK".equals(individual.getOriginPlanet())) return false;
-
-        return hasIdentifyingInfo(individual, "KASHYYYK", false, 0, 400, "HAIRY", "TALL");
+    private static boolean canBeEwok(Individual ind) {
+        int score = matchScore(ind, "ENDOR", false, 60, "SHORT", "HAIRY");
+        if (ind.getOriginPlanet() != null && ind.getOriginPlanet().equals("ENDOR")) return true;
+        return score > 0;
     }
 
-    private static boolean canBeEwok(Individual individual) {
-        if (individual.isHumanoid() != null && individual.isHumanoid()) return false;
-        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 60)) return false;
-        if (individual.getOriginPlanet() != null && !"ENDOR".equals(individual.getOriginPlanet())) return false;
-
-        return hasIdentifyingInfo(individual, "ENDOR", false, 0, 60, "SHORT", "HAIRY");
+    private static boolean canBeBetelgeusian(Individual ind) {
+        int score = matchScore(ind, "BETELGEUSE", true, 100, "EXTRA_ARMS", "EXTRA_HEAD");
+        if (ind.getOriginPlanet() != null && ind.getOriginPlanet().equals("BETELGEUSE")) return true;
+        return score > 0;
     }
 
-    private static boolean canBeBetelgeusian(Individual individual) {
-        if (individual.isHumanoid() != null && !individual.isHumanoid()) return false;
-        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 100)) return false;
-        if (individual.getOriginPlanet() != null && !"BETELGEUSE".equals(individual.getOriginPlanet())) return false;
-
-        return hasIdentifyingInfo(individual, "BETELGEUSE", true, 0, 100, "EXTRA_ARMS", "EXTRA_HEAD");
+    private static boolean canBeVogon(Individual ind) {
+        int score = matchScore(ind, "VOGSPHERE", false, 200, "GREEN", "BULKY");
+        if (ind.getOriginPlanet() != null && ind.getOriginPlanet().equals("VOGSPHERE")) return true;
+        return score > 0;
     }
 
-    private static boolean canBeVogon(Individual individual) {
-        if (individual.isHumanoid() != null && individual.isHumanoid()) return false;
-        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
-        if (individual.getOriginPlanet() != null && !"VOGSPHERE".equals(individual.getOriginPlanet())) return false;
-
-        return hasIdentifyingInfo(individual, "VOGSPHERE", false, 0, 200, "GREEN", "BULKY");
+    private static boolean canBeElf(Individual ind) {
+        int score = matchScore(ind, "EARTH", true, Integer.MAX_VALUE, "BLONDE", "POINTY_EARS");
+        if (ind.getOriginPlanet() != null && ind.getOriginPlanet().equals("EARTH")) return true;
+        return score > 0;
     }
 
-    private static boolean canBeElf(Individual individual) {
-        if (individual.isHumanoid() != null && !individual.isHumanoid()) return false;
-        if (individual.getAge() != null && individual.getAge() < 0) return false;
-        if (individual.getOriginPlanet() != null && !"EARTH".equals(individual.getOriginPlanet())) return false;
-
-        return hasIdentifyingInfo(individual, "EARTH", true, 0, Integer.MAX_VALUE, "BLONDE", "POINTY_EARS");
+    private static boolean canBeDwarf(Individual ind) {
+        int score = matchScore(ind, "EARTH", true, 200, "SHORT", "BULKY");
+        if (ind.getOriginPlanet() != null && ind.getOriginPlanet().equals("EARTH")) return true;
+        return score > 0;
     }
 
-    private static boolean canBeDwarf(Individual individual) {
-        if (individual.isHumanoid() != null && !individual.isHumanoid()) return false;
-        if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 200)) return false;
-        if (individual.getOriginPlanet() != null && !"EARTH".equals(individual.getOriginPlanet())) return false;
+    // FINAL classification logic copied from message.txt behavior
+    private static void classifyIndividual(Individual ind) {
 
-        return hasIdentifyingInfo(individual, "EARTH", true, 0, 200, "SHORT", "BULKY");
+        class Species {
+            Universe u;
+            String planet;
+            Boolean humanoid;
+            int maxAge;
+            String[] traits;
+
+            Species(Universe u, String p, Boolean h, int m, String... t) {
+                this.u = u; this.planet = p; this.humanoid = h; this.maxAge = m; this.traits = t;
+            }
+        }
+
+        List<Species> species = List.of(
+                new Species(Universe.STAR_WARS, "KASHYYYK", false, 400, "HAIRY", "TALL"),
+                new Species(Universe.STAR_WARS, "ENDOR", false, 60, "SHORT", "HAIRY"),
+                new Species(Universe.MARVEL, "ASGARD", true, 5000, "BLONDE", "TALL"),
+                new Species(Universe.HITCHHIKER, "BETELGEUSE", true, 100, "EXTRA_ARMS", "EXTRA_HEAD"),
+                new Species(Universe.HITCHHIKER, "VOGSPHERE", false, 200, "GREEN", "BULKY"),
+                new Species(Universe.LORD_OF_THE_RINGS, "EARTH", true, Integer.MAX_VALUE, "BLONDE", "POINTY_EARS"),
+                new Species(Universe.LORD_OF_THE_RINGS, "EARTH", true, 200, "SHORT", "BULKY")
+        );
+
+        // planet match = forced classification
+        for (Species sp : species) {
+            if (ind.getOriginPlanet() != null && ind.getOriginPlanet().equals(sp.planet)) {
+                ind.setUniverse(sp.u);
+                return;
+            }
+        }
+
+        int bestScore = -1;
+        List<Species> best = new ArrayList<>();
+
+        for (Species sp : species) {
+            int score = matchScore(ind, sp.planet, sp.humanoid, sp.maxAge, sp.traits);
+
+            if (score > bestScore) {
+                bestScore = score;
+                best.clear();
+                best.add(sp);
+            } else if (score == bestScore) {
+                best.add(sp);
+            }
+        }
+
+        if (bestScore == 0) {
+            ind.setUniverse(Universe.UNDEFINED);
+            return;
+        }
+
+        Universe uni = best.get(0).u;
+        for (Species s : best) {
+            if (s.u != uni) {
+                ind.setUniverse(Universe.UNDEFINED);
+                return;
+            }
+        }
+
+        ind.setUniverse(uni);
     }
 
     public static void main(String[] args) {
         Files files = new Files();
 
-        // read from the correct input.json at lab-papers-please root
         File fileObj = new File("lab-papers-please/input.json");
         List<Individual> individuals = files.readJsonFile(fileObj);
         System.out.println("Total individuals: " + individuals.size());
@@ -297,8 +270,6 @@ public class Main {
             classifyIndividual(individual);
         }
 
-        // print results by universe
-        // count individuals by universe
         int starWarsCount = 0;
         int marvelCount = 0;
         int hitchhikerCount = 0;
@@ -325,42 +296,41 @@ public class Main {
             }
         }
 
-        System.out.println("\n----STAR WARS Universe (" + starWarsCount + " individuals)----");
+        System.out.println("\n----STAR WARS Universe (" + starWarsCount + " individuals)");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.STAR_WARS) {
                 System.out.println("ID: " + individual.getId() + ", from " + individual.getOriginPlanet());
             }
         }
 
-        System.out.println("\nMARVEL Universe (" + marvelCount + " individuals)----");
+        System.out.println("\nMARVEL Universe (" + marvelCount + " individuals)");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.MARVEL) {
                 System.out.println("ID: " + individual.getId() + ", from " + individual.getOriginPlanet());
             }
         }
 
-        System.out.println("\nHITCHHIKER Universe (" + hitchhikerCount + " individuals)----");
+        System.out.println("\nHITCHHIKER Universe (" + hitchhikerCount + " individuals)");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.HITCHHIKER) {
                 System.out.println("ID: " + individual.getId() + ", from " + individual.getOriginPlanet());
             }
         }
 
-        System.out.println("\nLORD OF THE RINGS Universe (" + lordOfTheRingsCount + " individuals)----");
+        System.out.println("\nLORD OF THE RINGS Universe (" + lordOfTheRingsCount + " individuals)");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.LORD_OF_THE_RINGS) {
                 System.out.println("ID: " + individual.getId() + ", from " + individual.getOriginPlanet());
             }
         }
 
-        System.out.println("\nUNDEFINED Universe (" + undefinedCount + " individuals)----");
+        System.out.println("\nUNDEFINED Universe (" + undefinedCount + " individuals)");
         for (Individual individual : individuals) {
             if (individual.getUniverse() == Universe.UNDEFINED) {
                 System.out.println("ID: " + individual.getId() + " - Insufficient information");
             }
         }
 
-        // Print summary
         System.out.println("Total individuals processed: " + individuals.size());
         System.out.println("Star Wars:        " + starWarsCount);
         System.out.println("Marvel:           " + marvelCount);
@@ -370,7 +340,6 @@ public class Main {
 
         System.out.println("\nWriting output files...");
 
-        // Group individuals by universe
         List<Individual> starWarsIndividuals = new ArrayList<>();
         List<Individual> marvelIndividuals = new ArrayList<>();
         List<Individual> hitchhikerIndividuals = new ArrayList<>();
@@ -393,7 +362,6 @@ public class Main {
             }
         }
 
-        // Write output files
         UniverseOutput starWarsOutput = new UniverseOutput("starWars", starWarsIndividuals);
         UniverseOutput marvelOutput = new UniverseOutput("marvel", marvelIndividuals);
         UniverseOutput hitchhikerOutput = new UniverseOutput("hitchhiker", hitchhikerIndividuals);
