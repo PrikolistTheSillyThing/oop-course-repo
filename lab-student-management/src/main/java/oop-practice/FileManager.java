@@ -16,14 +16,14 @@ class FileManager {
             writer.write("# ============================================\n");
 
             for (Faculty faculty : faculties) {
-                // Write faculty line
+                // write faculty line
                 writer.write("FACULTY" + DELIMITER);
                 writer.write(faculty.getName() + DELIMITER);
                 writer.write(faculty.getAbbreviation() + DELIMITER);
                 writer.write(faculty.getStudyField().name());
                 writer.write("\n");
 
-                // Write all students for this faculty
+                // write all students for this faculty
                 for (Student student : faculty.getStudents()) {
                     writer.write("STUDENT" + DELIMITER);
                     writer.write(student.getFirstName() + DELIMITER);
@@ -49,7 +49,7 @@ class FileManager {
         List<Faculty> faculties = new ArrayList<>();
         File file = new File(DATA_FILE);
 
-        // If file doesn't exist, return empty list
+        // if file doesn't exist, return empty list
         if (!file.exists()) {
             System.out.println("No saved data found. Starting fresh.");
             return faculties;
@@ -63,7 +63,7 @@ class FileManager {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                // Skip comments and empty lines
+                // skip comments and empty lines
                 if (line.trim().isEmpty() || line.startsWith("#")) {
                     continue;
                 }
@@ -71,7 +71,7 @@ class FileManager {
                 String[] parts = line.split("\\" + DELIMITER);
 
                 if (parts[0].equals("FACULTY")) {
-                    // Parse faculty: FACULTY|name|abbreviation|studyField
+                    // parse faculty: FACULTY|name|abbreviation|studyField
                     if (parts.length >= 4) {
                         String name = parts[1];
                         String abbreviation = parts[2];
@@ -82,7 +82,7 @@ class FileManager {
                         facultyCount++;
                     }
                 } else if (parts[0].equals("STUDENT")) {
-                    // Parse student: STUDENT|firstName|lastName|email|enrollmentDate|dateOfBirth|graduated
+                    // parse student: STUDENT|firstName|lastName|email|enrollmentDate|dateOfBirth|graduated
                     if (parts.length >= 7 && currentFaculty != null) {
                         String firstName = parts[1];
                         String lastName = parts[2];
@@ -91,9 +91,9 @@ class FileManager {
                         Date dateOfBirth = sdf.parse(parts[5]);
                         boolean graduated = Boolean.parseBoolean(parts[6]);
 
-                        // Create student with custom enrollment date
+                        // create student with custom enrollment date
                         Student student = new Student(firstName, lastName, email, dateOfBirth);
-                        // Use reflection or add a setter to restore enrollment date
+                        // use reflection or add a setter to restore enrollment date
                         student.setEnrollmentDate(enrollmentDate);
                         student.setGraduated(graduated);
 
