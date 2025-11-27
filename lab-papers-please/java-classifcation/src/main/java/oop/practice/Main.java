@@ -128,6 +128,8 @@ class UniverseOutput {
 
 public class Main {
 
+    // checks for ALL traits. 1 missing - fail
+
     private static boolean hasAllTraits(Individual individual, String... requiredTraits) {
         if (individual.getPhysicalTraits() == null) return false;
         for (String trait : requiredTraits) {
@@ -137,15 +139,17 @@ public class Main {
         }
         return true;
     }
-
-    private static boolean hasIdentifyingInfo(Individual individual, String expectedPlanet,
-                                              Boolean expectedHumanoid, int minAge, int maxAge,
-                                              String... expectedTraits) {
+    // string... for 0 1 or multiple arguments
+    private static boolean hasIdentifyingInfo(Individual individual, String expectedPlanet, Boolean expectedHumanoid, int minAge, int maxAge, String... expectedTraits) {
         int evidencePoints = 0;
+
+        //planet - 2 points
 
         if (expectedPlanet.equals(individual.getOriginPlanet())) {
             evidencePoints += 2;
         }
+
+        // traits - 2 points (EVERY EXPECTED TRAIT!!!!)
 
         if (individual.getPhysicalTraits() != null && !individual.getPhysicalTraits().isEmpty()) {
             if (hasAllTraits(individual, expectedTraits)) {
@@ -153,24 +157,32 @@ public class Main {
             }
         }
 
+        //humanoid - only 1 point
+
         if (individual.isHumanoid() != null && individual.isHumanoid() == expectedHumanoid) {
             evidencePoints += 1;
         }
 
+        // age - 1 point
         if (individual.getAge() != null && individual.getAge() >= minAge && individual.getAge() <= maxAge) {
             evidencePoints += 1;
         }
 
+        // older than 5000 - ELF!! straight up
         if (maxAge == Integer.MAX_VALUE && individual.getAge() != null && individual.getAge() > 5000) {
             return true;
         }
 
-        // Need at least 2 evidence points to classify
+        // at least 2 evidence points to classify
         return evidencePoints >= 2;
     }
 
+    // create empty list to collect all universes person may belong to..
     private static void classifyIndividual(Individual individual) {
         List<Universe> possibleUniverses = new ArrayList<>();
+
+
+        // run through each species check. if can be species - add universe to list
 
         if (canBeAsgardian(individual)) {
             possibleUniverses.add(Universe.MARVEL);
@@ -200,6 +212,8 @@ public class Main {
             possibleUniverses.add(Universe.LORD_OF_THE_RINGS);
         }
 
+        // if any universe works - pick the first. if none - undefined
+
         if (!possibleUniverses.isEmpty()) {
             individual.setUniverse(possibleUniverses.get(0));
         } else {
@@ -210,12 +224,15 @@ public class Main {
         }
     }
 
+    // if data contradicts - fail immediately
+    // if data is missing (null) - not used in classification
+
     private static boolean canBeAsgardian(Individual individual) {
-        // Check for direct contradictions only
         if (individual.isHumanoid() != null && !individual.isHumanoid()) return false;
         if (individual.getAge() != null && (individual.getAge() < 0 || individual.getAge() > 5000)) return false;
         if (individual.getOriginPlanet() != null && !"ASGARD".equals(individual.getOriginPlanet())) return false;
 
+        // if hard constraints passed - delegate to scorung system
         return hasIdentifyingInfo(individual, "ASGARD", true, 0, 5000, "BLONDE", "TALL");
     }
 
@@ -270,18 +287,18 @@ public class Main {
     public static void main(String[] args) {
         Files files = new Files();
 
-        // Read from the correct input.json at lab-papers-please root
+        // read from the correct input.json at lab-papers-please root
         File fileObj = new File("lab-papers-please/input.json");
         List<Individual> individuals = files.readJsonFile(fileObj);
         System.out.println("Total individuals: " + individuals.size());
 
-        System.out.println("\n----Classifying Individuals----");
+        System.out.println("\nClassifying Individuals");
         for (Individual individual : individuals) {
             classifyIndividual(individual);
         }
 
-        // Print results by universe
-        // Count individuals by universe
+        // print results by universe
+        // count individuals by universe
         int starWarsCount = 0;
         int marvelCount = 0;
         int hitchhikerCount = 0;
@@ -386,7 +403,5 @@ public class Main {
         files.writeJsonFile("lab-papers-please/java-classification/src/output/marvel.json", marvelOutput);
         files.writeJsonFile("lab-papers-please/java-classification/src/output/hitchhiker.json", hitchhikerOutput);
         files.writeJsonFile("lab-papers-please/java-classification/src/output/lordOfTheRings.json", lordOfTheRingsOutput);
-
-        System.out.println("\nClassification complete!");
     }
 }
