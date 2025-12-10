@@ -174,3 +174,85 @@ class CircularQueue<T> extends Queue<T> {
     }
 }
 
+interface Dineable {
+    void serveDinner(String carId);
+}
+
+interface Refuelable {
+    void refuel(String carId, int consumption);
+}
+
+class PeopleDinner implements Dineable {
+    public void serveDinner(String carId) {
+        System.out.println("Serving dinner to people in car " + carId);
+        StatisticsTracker.getInstance().incrementPeople();
+        StatisticsTracker.getInstance().incrementDining();
+    }
+}
+
+class RobotDinner implements Dineable {
+    public void serveDinner(String carId) {
+        System.out.println("Serving dinner to robots in car " + carId);
+        StatisticsTracker.getInstance().incrementRobots();
+        StatisticsTracker.getInstance().incrementDining();
+    }
+}
+
+class ElectricStation implements Refuelable {
+    public void refuel(String carId, int c) {
+        System.out.println("Charging electric car " + carId);
+        StatisticsTracker.getInstance().incrementElectric();
+        StatisticsTracker.getInstance().addElectricConsumption(c);
+    }
+}
+
+class GasStation implements Refuelable {
+    public void refuel(String carId, int c) {
+        System.out.println("Refueling gas car " + carId);
+        StatisticsTracker.getInstance().incrementGas();
+        StatisticsTracker.getInstance().addGasConsumption(c);
+    }
+}
+
+class StatisticsTracker {
+    private static StatisticsTracker instance;
+
+    private int electricCount = 0;
+    private int gasCount = 0;
+    private int peopleCount = 0;
+    private int robotsCount = 0;
+    private int diningCount = 0;
+    private int notDiningCount = 0;
+    private int electricConsumption = 0;
+    private int gasConsumption = 0;
+
+    public static StatisticsTracker getInstance() {
+        if (instance == null) instance = new StatisticsTracker();
+        return instance;
+    }
+
+    synchronized void incrementElectric() { electricCount++; }
+    synchronized void incrementGas() { gasCount++; }
+    synchronized void incrementPeople() { peopleCount++; }
+    synchronized void incrementRobots() { robotsCount++; }
+    synchronized void incrementDining() { diningCount++; }
+    synchronized void incrementNotDining() { notDiningCount++; }
+    synchronized void addElectricConsumption(int c) { electricConsumption += c; }
+    synchronized void addGasConsumption(int c) { gasConsumption += c; }
+
+    void printStatistics() {
+        System.out.println("{");
+        System.out.println("  ELECTRIC: " + electricCount + ",");
+        System.out.println("  GAS: " + gasCount + ",");
+        System.out.println("  PEOPLE: " + peopleCount + ",");
+        System.out.println("  ROBOTS: " + robotsCount + ",");
+        System.out.println("  DINING: " + diningCount + ",");
+        System.out.println("  NOT_DINING: " + notDiningCount + ",");
+        System.out.println("  CONSUMPTION: {");
+        System.out.println("    ELECTRIC: " + electricConsumption + ",");
+        System.out.println("    GAS: " + gasConsumption);
+        System.out.println("  }");
+        System.out.println("}");
+    }
+}
+
