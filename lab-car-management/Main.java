@@ -99,3 +99,78 @@ class JsonReader {
     }
 }
 
+abstract class Queue<T> {
+    public abstract void enqueue(T item);
+    public abstract T dequeue();
+    public abstract boolean isEmpty();
+    public abstract int size();
+}
+
+class ArrayQueue<T> extends Queue<T> {
+    private List<T> items = new ArrayList<>();
+    public void enqueue(T item) { items.add(item); }
+    public T dequeue() {
+        if (isEmpty()) return null;
+        return items.remove(0);
+    }
+    public boolean isEmpty() { return items.isEmpty(); }
+    public int size() { return items.size(); }
+}
+
+class LinkedListQueue<T> extends Queue<T> {
+    private LinkedList<T> items = new LinkedList<>();
+    public void enqueue(T item) { items.addLast(item); }
+    public T dequeue() {
+        if (isEmpty()) return null;
+        return items.removeFirst();
+    }
+    public boolean isEmpty() { return items.isEmpty(); }
+    public int size() { return items.size(); }
+}
+
+class CircularQueue<T> extends Queue<T> {
+    private Object[] items;
+    private int front = 0, rear = -1, size = 0, capacity;
+
+    public CircularQueue(int capacity) {
+        this.capacity = capacity;
+        this.items = new Object[capacity];
+    }
+
+    public CircularQueue() { this(100); }
+
+    public void enqueue(T item) {
+        if (size == capacity) resize();
+        rear = (rear + 1) % capacity;
+        items[rear] = item;
+        size++;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T dequeue() {
+        if (isEmpty()) {
+            return null;
+        }
+        T item = (T) items[front];
+        items[front] = null;
+        front = (front + 1) % capacity;
+        size--;
+        return item;
+    }
+
+    public boolean isEmpty() { return size == 0; }
+    public int size() { return size; }
+
+    private void resize() {
+        int newCap = capacity * 2;
+        Object[] newItems = new Object[newCap];
+        for (int i = 0; i < size; i++) {
+            newItems[i] = items[(front + i) % capacity];
+        }
+        items = newItems;
+        front = 0;
+        rear = size - 1;
+        capacity = newCap;
+    }
+}
+
