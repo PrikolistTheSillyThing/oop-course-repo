@@ -6,8 +6,9 @@ import com.google.gson.Gson;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Car service application\n");
+        System.out.println("Car service application started\n");
 
+        var semaphore = new Semaphore();
 
         List<Car> cars = readCarsFromJson("C:\\Users\\Admin\\IdeaProjects\\oop-course-repo\\lab-car-management\\cars.json");
 
@@ -18,6 +19,18 @@ public class Main {
 
         System.out.println("Loaded " + cars.size() + " cars from cars.json\n");
 
+        System.out.println("Routing Cars to stations...");
+        for (var car : cars) {
+            semaphore.routeCar(car);
+        }
+
+        System.out.println("\nServing cars\n");
+        semaphore.serveAllCars();
+
+        System.out.println("\nFinal stats\n");
+        StatisticsTracker.getInstance().printStatistics();
+
+        System.out.println("\nCar service app finished =)");
     }
 
     private static List<Car> readCarsFromJson(String filename) {
@@ -30,7 +43,7 @@ public class Main {
         }
 
         try {
-            Gson gson = new Gson();
+            var gson = new Gson();
             Car[] carsArray = gson.fromJson(text, Car[].class);
             return Arrays.asList(carsArray);
         } catch (Exception e) {
@@ -72,30 +85,6 @@ class Car {
                 ", isDining=" + isDining +
                 ", consumption=" + consumption +
                 '}';
-    }
-}
-
-class JsonReader {
-    private String filename;
-
-    public JsonReader(String filename) {
-        this.filename = filename;
-    }
-
-    public String readFile() {
-        StringBuilder sb = new StringBuilder();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(new File(filename)))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-        } catch (Exception e) {
-            System.err.println("Error reading: " + filename + " -> " + e.getMessage());
-            return null;
-        }
-
-        return sb.toString();
     }
 }
 
@@ -214,6 +203,123 @@ class GasStation implements Refuelable {
     }
 }
 
+class CarStation {
+    private Dineable dining;
+    private Refuelable refuel;
+    private Queue<Car> queue;
+    private String type;
+
+    public CarStation(Dineable d, Refuelable r, Queue<Car> q, String type) {
+        this.dining = d;
+        this.refuel = r;
+        this.queue = q;
+        this.type = type;
+    }
+
+    public void addCar(Car car) {
+        queue.enqueue(car);
+    }
+
+    public void serveCars() {
+        if (queue.isEmpty()) return;
+        System.out.println(type + ":");
+
+        while (!queue.isEmpty()) {
+            Car car = queue.dequeue();
+
+            if (car == null) {
+                continue; // Skip if null (shouldn't happen with fixes above)
+            }
+
+            if (car.isDining() && dining != null) {
+                dining.serveDinner(String.valueOf(car.getId()));
+            } else {
+                if (car.getPassengers().equals("PEOPLE"))
+                    StatisticsTracker.getInstance().incrementPeople();
+                else
+                    StatisticsTracker.getInstance().incrementRobots();
+
+                StatisticsTracker.getInstance().incrementNotDining();
+            }
+
+            if (refuel != null)
+                refuel.refuel(String.valueOf(car.getId()), car.getConsumption());
+        }
+        System.out.println();
+    }
+}
+
+class Semaphore {
+    private Map<String, CarStation> stations = new HashMap<>();
+
+    public Semaphore() {
+        stations.put("ELECTRIC-PEOPLE-DINING",
+                new CarStation(new PeopleDinner(), new ElectricStation(), new ArrayQueue<>(), "ELECTRIC-PEOPLE-DINING"));
+
+        stations.put("ELECTRIC-PEOPLE-NOTDINING",
+                new CarStation(null, new ElectricStation(), new LinkedListQueue<>(), "ELECTRIC-PEOPLE-NOTDINING"));
+
+        stations.put("ELECTRIC-ROBOTS-DINING",
+                new CarStation(new RobotDinner(), new ElectricStation(), new CircularQueue<>(), "ELECTRIC-ROBOTS-DINING"));
+
+        stations.put("ELECTRIC-ROBOTS-NOTDINING",
+                new CarStation(null, new ElectricStation(), new ArrayQueue<>(), "ELECTRIC-ROBOTS-NOTDINING"));
+
+        stations.put("GAS-PEOPLE-DINING",
+                new CarStation(new PeopleDinner(), new GasStation(), new LinkedListQueue<>(), "GAS-PEOPLE-DINING"));
+
+        stations.put("GAS-PEOPLE-NOTDINING",
+                new CarStation(null, new GasStation(), new CircularQueue<>(), "GAS-PEOPLE-NOTDINING"));
+
+        stations.put("GAS-ROBOTS-DINING",
+                new CarStation(new RobotDinner(), new GasStation(), new ArrayQueue<>(), "GAS-ROBOTS-DINING"));
+
+        stations.put("GAS-ROBOTS-NOTDINING",
+                new CarStation(null, new GasStation(), new LinkedListQueue<>(), "GAS-ROBOTS-NOTDINING"));
+    }
+
+    public void routeCar(Car car) {
+        String key = car.getType() + "-" + car.getPassengers() + "-" +
+                (car.isDining() ? "DINING" : "NOTDINING");
+
+        var station = stations.get(key);
+
+        if (station != null) station.addCar(car);
+        else System.err.println("No station found for car: " + car);
+    }
+
+    public void serveAllCars() {
+        for (CarStation cs : stations.values()) {
+            cs.serveCars();
+        }
+    }
+}
+
+class JsonReader {
+    private String filename;
+
+    public JsonReader(String filename) {
+        this.filename = filename;
+    }
+
+    public String readFile() {
+        var sb = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(new File(filename)))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+        } catch (Exception e) {
+            System.err.println("Error reading: " + filename + " -> " + e.getMessage());
+            return null;
+        }
+
+        return sb.toString();
+    }
+}
+
+
 class StatisticsTracker {
     private static StatisticsTracker instance;
 
@@ -255,4 +361,3 @@ class StatisticsTracker {
         System.out.println("}");
     }
 }
-
